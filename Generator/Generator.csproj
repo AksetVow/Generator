@@ -94,16 +94,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Icons\delete.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Icons\delete_all.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Resources\Icons\delete.png" />
+    <Resource Include="Resources\Icons\delete_all.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\document.png" />
     <Resource Include="Resources\Icons\documents.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\generator.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

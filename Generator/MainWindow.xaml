@@ -1,7 +1,9 @@
 ﻿<Window x:Class="Generator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Генератор статей" Height="770" Width="1423">
+        Title="Генератор статей" Height="780" Width="1423" Icon="Resources/Icons/Generator.png">
+
+    <!--START OF WINDOW RESOURCES (Move it to resource dictionary) -->
     <Window.Resources>
         <Style x:Key="buttonStyle" TargetType="Button">
             <Setter Property="Height" Value="25" />
@@ -46,11 +48,23 @@
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="Margin" Value="0,0,5,0"/>
         </Style>
-
-
     </Window.Resources>
+    <!-- END OF WINDOW RESOURCES -->
+
+
 
     <WrapPanel Orientation="Vertical">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Файл">
+                <MenuItem Header="_Открыть"/>
+                <MenuItem Header="_Сохранить"/>
+            </MenuItem>
+            <MenuItem Header="_Редактировать">
+                <MenuItem Header="_Отменить"/>
+                <MenuItem Header="_Заново"/>
+            </MenuItem>
+        </Menu>
+
         <WrapPanel Height="161" Width="1407"  Orientation="Vertical">
             <StackPanel Orientation="Horizontal">
                 <Label Style="{StaticResource processLabel}">??????????????</Label>
@@ -160,10 +174,35 @@
 
 
         <Grid Height="394" Width="1407" >
+            <DataGrid Name="_workspace" AutoGenerateColumns="False" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                </DataGrid.Columns>
+            </DataGrid>
+
         </Grid>
 
-        <Grid Height="126" Width="1407" >
-        </Grid>
+        <WrapPanel Height="126" Width="1407" Orientation="Vertical" >
+            <Label Content="??????????"/>
+            <DataGrid Name="_footer" AutoGenerateColumns="False" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="??????????"  />
+                    <DataGridTextColumn Header="??????????"  />
+                </DataGrid.Columns>
+            </DataGrid>
+        </WrapPanel>
 
     </WrapPanel>
 </Window>
