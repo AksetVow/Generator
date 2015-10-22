@@ -1,7 +1,7 @@
 ﻿
 namespace Core.Command.Commands
 {
-    public class DeleteAllCommand : ICommand
+    public class AddArticleCommand: ICommand
     {
         public void Do()
         {
