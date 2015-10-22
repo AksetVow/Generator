@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using Core;
+using Core.Parser;
 
 namespace TestCore
 {
@@ -13,7 +14,7 @@ namespace TestCore
         {
             Assert.IsTrue(File.Exists(Settings.ImportIni));
 
-            var importConfigurations = Parser.ParseImportSettings(Settings.ImportIni);
+            var importConfigurations = ImportConfigParser.ParseImportSettings(Settings.ImportIni);
             Assert.AreEqual(importConfigurations.Count, 4);
 
             Assert.AreEqual(importConfigurations[0].Name, "Отчеты Артефакта (отдельными файлами)");

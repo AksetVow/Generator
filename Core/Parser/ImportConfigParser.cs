@@ -6,9 +6,9 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Core
+namespace Core.Parser
 {
-    public static class Parser
+    public static class ImportConfigParser
     {
         public const string ImportConfigurationNamePattern = @"^\[.*\]$";
 
@@ -26,12 +26,6 @@ namespace Core
         public const string Categoryempty = @"categoryempty";
         public const string Regetkeywords = @"regetkeywords";
 
-
-
-        public static IList<Template> ParseExportSettings(string exportSetting)
-        {
-            throw new NotImplementedException();
-        }
 
         public static IList<ImportConfiguration> ParseImportSettings(string importSettingFile)
         {

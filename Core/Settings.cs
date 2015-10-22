@@ -1,5 +1,6 @@
 ﻿using Core.Export;
 using Core.Import;
+using Core.Parser;
 using System.Collections.Generic;
 
 namespace Core
@@ -14,10 +15,10 @@ namespace Core
 
         static Settings()
         {
-            var importConfigurations = Parser.ParseImportSettings(ImportIni);
+            var importConfigurations = ImportConfigParser.ParseImportSettings(ImportIni);
             _importConfigurations.AddRange(importConfigurations);
 
-            var templates = Parser.ParseExportSettings(ExportIni);
+            var templates = ExportConfigParser.ParseExportSettings(ExportIni);
             _templates.AddRange(templates);
         }
 
