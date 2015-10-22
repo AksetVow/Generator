@@ -16,4 +16,16 @@ Exports.ini - set list of template resources and export drop down list in progra
 Imports.ini - set list of rules for import documents and import drop down list in program
 In import files sets rules for searching article information , such as title, author, source and so on (described in man file)
 
+File Used in template structuring (checking only one example):
+
+header
+	tocheadertpl
+	toc
+	
+	article
+	
+	cntheader
+	countgrouptpl
+footer
+
 

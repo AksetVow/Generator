@@ -7,10 +7,10 @@ using Core.Parser;
 namespace TestCore
 {
     [TestClass]
-    public class ParserTest
+    public class ImportParserTest
     {
         [TestMethod]
-        public void TestImportIni()
+        public void TestParseImportSettings()
         {
             Assert.IsTrue(File.Exists(Settings.ImportIni));
 
@@ -33,12 +33,6 @@ namespace TestCore
             Assert.IsTrue(importConfigurations[3].IsArchive);
             Assert.AreEqual(importConfigurations[3].FileMask, "*.zip");
 
-        }
-
-        [TestMethod]
-        public void TestExportIni()
-        {
-            Assert.IsTrue(File.Exists(Settings.ExportIni));
         }
     }
 }
