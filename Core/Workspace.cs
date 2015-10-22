@@ -12,7 +12,7 @@ namespace Core
             _articles.Add(article);
         }
 
-        public void Add(List<Article> articles)
+        public void Add(IList<Article> articles)
         {
             _articles.AddRange(articles);
         }
@@ -30,7 +30,7 @@ namespace Core
             return clonedList;
         }
 
-        public IEnumerable<Article> Articles
+        public IList<Article> Articles
         {
             get
             {

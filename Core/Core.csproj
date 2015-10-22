@@ -40,7 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Article.cs" />
-    <Compile Include="Command\Command.cs" />
+    <Compile Include="Command\Commands\AddArticleCommand.cs" />
+    <Compile Include="Command\Commands\AddArticlesCommand.cs" />
+    <Compile Include="Command\ICommand.cs" />
     <Compile Include="Command\CommandManager.cs" />
     <Compile Include="Command\Commands\DeleteAllCommand.cs" />
     <Compile Include="Command\Commands\DeleteAllImagesCommand.cs" />

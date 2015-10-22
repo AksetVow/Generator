@@ -4,10 +4,10 @@ namespace Core.Command
 {
     public interface ICommand
     {
-        public void Do();
+        void Do();
 
-        public void Undo();
+        void Undo();
 
-        public void Redo();
+        void Redo();
     }
 }

@@ -36,5 +36,11 @@ namespace Core.Command
             }
         }
 
+        public void Clean()
+        {
+            _doneCommands.Clear();
+            _undoneCommands.Clear();
+        }
+
     }
 }
