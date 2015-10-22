@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace Core
 {
-    static class Settings
+    public static class Settings
     {
         private static List<Template> _templates = new List<Template>();
         private static List<ImportConfiguration> _importConfigurations = new List<ImportConfiguration>();
 
-        public const string ExportIni = "";
-        public const string ImportIni = "";
+        public const string ExportIni = "exports.ini";
+        public const string ImportIni = "imports.ini";
 
         static Settings()
         {
