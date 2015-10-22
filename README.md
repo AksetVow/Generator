@@ -21,6 +21,7 @@ File Used in template structuring (checking only one example):
 header
 	tocheadertpl
 	toc
+	tocfootertpl
 	
 	article
 	
