@@ -26,5 +26,24 @@ namespace TestCore
             Assert.AreEqual(templates[0].Tocfootertpl, @"..\tocfootertpl.htm");
         }
 
+        [TestMethod]
+        public void TestParseExportSettings_Old()
+        {
+            Assert.IsTrue(File.Exists("exports_old.ini"));
+
+            var templates = ExportConfigParser.ParseExportSettings("exports_old.ini");
+            Assert.AreEqual(templates.Count, 25);
+
+            Assert.AreEqual(templates[0].Rootdir, @"outtpls\za-datu");
+            Assert.AreEqual(templates[0].Headertpl, @"header.htm");
+            Assert.AreEqual(templates[0].Articletpl, @"..\article.htm");
+            Assert.AreEqual(templates[0].Footertpl, @"footer.htm");
+            Assert.AreEqual(templates[0].IncludeToc, true);
+            Assert.AreEqual(templates[0].Toctpl, @"..\toc.htm");
+            Assert.AreEqual(templates[0].Tocheadertpl, @"..\tocheadertpl.htm");
+            Assert.AreEqual(templates[0].Tocfootertpl, @"..\tocfootertpl.htm");
+        }
+
+
     }
 }
