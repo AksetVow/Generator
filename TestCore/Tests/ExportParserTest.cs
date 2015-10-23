@@ -3,7 +3,7 @@ using Core.Parser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 
-namespace TestCore
+namespace TestCore.Tests
 {
     [TestClass]
     public class ExportParserTest

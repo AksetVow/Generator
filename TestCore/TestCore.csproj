@@ -53,11 +53,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CommandManagerTest.cs" />
+    <Compile Include="Tests\CommandManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ImportParserTest.cs" />
-    <Compile Include="ExportParserTest.cs" />
-    <Compile Include="WorkspaceTest.cs" />
+    <Compile Include="Tests\ImportParserTest.cs" />
+    <Compile Include="Tests\ExportParserTest.cs" />
+    <Compile Include="Tests\ImporterTest.cs" />
+    <Compile Include="Tests\ExporterTest.cs" />
+    <Compile Include="Tests\WorkspaceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
@@ -76,6 +78,17 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="TestData\test.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\test2.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestData\10990313.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -48,6 +48,7 @@
     <Compile Include="Command\Commands\DeleteAllImagesCommand.cs" />
     <Compile Include="Command\Commands\DeleteCommand.cs" />
     <Compile Include="Command\Commands\DeleteImageCommand.cs" />
+    <Compile Include="Import\ImportData.cs" />
     <Compile Include="Parser\ExportConfigParser.cs" />
     <Compile Include="Export\Exporter.cs" />
     <Compile Include="Export\Report.cs" />

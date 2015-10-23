@@ -4,7 +4,7 @@ using System.IO;
 using Core;
 using Core.Parser;
 
-namespace TestCore
+namespace TestCore.Tests
 {
     [TestClass]
     public class ImportParserTest

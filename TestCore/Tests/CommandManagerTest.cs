@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 
-namespace TestCore
+namespace TestCore.Tests
 {
     [TestClass]
     public class CommandManagerTest

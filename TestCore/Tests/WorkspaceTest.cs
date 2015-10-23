@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
-namespace TestCore
+namespace TestCore.Tests
 {
     [TestClass]
     public class WorkspaceTest
