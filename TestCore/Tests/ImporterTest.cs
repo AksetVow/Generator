@@ -17,7 +17,7 @@ namespace TestCore.Tests
         private Importer _importer;
         private IList<ImportConfiguration> _importConfigurations;
 
-        [ClassInitialize]
+        [TestInitialize]
         public void Initialize()
         {
             _importer = new Importer();
@@ -39,13 +39,6 @@ namespace TestCore.Tests
             
         }
 
-        [TestMethod]
-        public void TestImportArchiveWithoutContentsFile()
-        {
-
-
-
-        }
 
         [TestMethod]
         public void TestImportFewFiles()
@@ -62,7 +55,12 @@ namespace TestCore.Tests
             _importer.ImportConfiguration = _importConfigurations[0];
             var article = _importer.ImportFile(TestArticle);
 
-            Assert.AreNotEqual(article, null);
+            Assert.AreNotEqual(article.Source, "Continent");
+            Assert.AreNotEqual(article.Title, "В центре Киева прошел ежегодный марафон");
+            Assert.AreNotEqual(article.Category, "Интернет");
+            Assert.AreNotEqual(article.PublicDate, "28.09.2015");
+
+
         }
 
 
