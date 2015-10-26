@@ -25,28 +25,18 @@ namespace TestCore.Tests
         }
 
 
-        [TestMethod]
-        public void TestImportArchive()
-        {
-            List<string> list = new List<string>();
-            list.Add(TestArchive);
-            ImportData data = new ImportData(new List<string>(list));
+        //[TestMethod]
+        //public void TestImportArchive()
+        //{
+        //    List<string> list = new List<string>();
+        //    list.Add(TestArchive);
+        //    ImportData data = new ImportData(new List<string>(list));
 
-            _importer.ImportConfiguration = _importConfigurations[1];
-            var articles = _importer.Import(data);
+        //    _importer.ImportConfiguration = _importConfigurations[1];
+        //    var articles = _importer.Import(data);
 
-            Assert.AreEqual(articles.Count, 2);
-            
-        }
-
-
-        [TestMethod]
-        public void TestImportFewFiles()
-        {
-
-
-
-        }
+        //    Assert.AreEqual(articles.Count, 2);    
+        //}
 
 
         [TestMethod]
@@ -57,8 +47,8 @@ namespace TestCore.Tests
 
             Assert.AreNotEqual(article.Source, "Continent");
             Assert.AreNotEqual(article.Title, "В центре Киева прошел ежегодный марафон");
-            Assert.AreNotEqual(article.Category, "Интернет");
-            Assert.AreNotEqual(article.PublicDate, "28.09.2015");
+            Assert.IsTrue(article.Category.Equals("Интернет"));
+            Assert.IsTrue(article.PublicDate.Equals("28.09.2015"));
 
 
         }
