@@ -62,7 +62,7 @@ namespace Core.Import
             throw new NotImplementedException();
         }
 
-
+        //TODO remove magic numbers in groups
         public Article ImportFile(string filepath)
         {
             if (ImportConfiguration == null)
@@ -77,38 +77,38 @@ namespace Core.Import
 
             matches = Regex.Matches(str, ImportConfiguration.Regetauthor, RegexOptions.Singleline);
             if (matches.Count > 0 && matches[0].Groups.Count > 2)
-                article.Author = matches[0].Groups[1].Value;
+                article.Author = matches[0].Groups[2].Value;
 
             matches = Regex.Matches(str, ImportConfiguration.Regetpublicdate, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 2)
+            if (matches.Count > 0 && matches[0].Groups.Count > 1)
                 article.PublicDate = matches[0].Groups[1].Value;
 
             matches = Regex.Matches(str, ImportConfiguration.Categoryempty, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 2)
+            if (matches.Count > 0 && matches[0].Groups.Count > 1)
                 article.CategoryEmpty = matches[0].Groups[1].Value;
 
             matches = Regex.Matches(str, ImportConfiguration.Regetcategory, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 2)
+            if (matches.Count > 0 && matches[0].Groups.Count > 1)
                 article.Category = matches[0].Groups[1].Value;
 
             matches = Regex.Matches(str, ImportConfiguration.Regetkeywords, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 2)
+            if (matches.Count > 0 && matches[0].Groups.Count > 1)
                 article.KeyWords = matches[0].Groups[1].Value;
 
             matches = Regex.Matches(str, ImportConfiguration.Regetregion, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 2)
+            if (matches.Count > 0 && matches[0].Groups.Count > 1)
                 article.Region = matches[0].Groups[1].Value;
 
             matches = Regex.Matches(str, ImportConfiguration.Regetsource, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 2)
+            if (matches.Count > 0 && matches[0].Groups.Count > 1)
                 article.Source = matches[0].Groups[1].Value;
 
             matches = Regex.Matches(str, ImportConfiguration.Regetsourcenumber, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 2)
+            if (matches.Count > 0 && matches[0].Groups.Count > 1)
                 article.SourceNumber = matches[0].Groups[1].Value;
 
             matches = Regex.Matches(str, ImportConfiguration.Regettitle, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 2)
+            if (matches.Count > 0 && matches[0].Groups.Count > 1)
                 article.Title = matches[0].Groups[1].Value;
 
             ProcessImages(str, article);
