@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.IO.Compression;
+using System.Linq;
 
 namespace Core.Import
 {
     public class Importer
     {
+        private const string Generator = "Generator";
+
         public ImportConfiguration ImportConfiguration { get; set; }        
 
         public IList<Article> Import(ImportData importData)
@@ -25,7 +29,7 @@ namespace Core.Import
             }
         }
 
-        public IList<Article> ImportFiles(IList<string> files)
+        public IList<Article> ImportFiles(IEnumerable<string> files)
         {
             var result = new List<Article>();
             Article article;
@@ -40,7 +44,7 @@ namespace Core.Import
 
         }
 
-        public IList<Article> ImportArchives(IList<string> archives)
+        public IList<Article> ImportArchives(IEnumerable<string> archives)
         {
             var result = new List<Article>();
             IList<Article> articles;
@@ -59,7 +63,25 @@ namespace Core.Import
             if (ImportConfiguration == null)
                 throw new NullReferenceException("No import configuration");
 
-            throw new NotImplementedException();
+            string randomFolder = Guid.NewGuid().ToString();
+
+            string destination = Path.Combine(Path.GetTempPath(), Generator);
+
+            if (!Directory.Exists(destination))
+            {
+                Directory.CreateDirectory(destination);
+            }
+
+            destination = Path.Combine(destination, randomFolder);
+            Directory.CreateDirectory(destination);
+
+
+            ZipFile.ExtractToDirectory(filepath, destination);
+
+            var files = Directory.GetFiles(destination).Where(f => !f.EndsWith("contents.htm"));
+
+            return ImportFiles(files);
+
         }
 
         //TODO remove magic numbers in groups

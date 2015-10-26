@@ -29,14 +29,16 @@ namespace TestCore.Tests
         [TestMethod]
         public void TestImportArchive()
         {
-            List<string> list = new List<string>();
-            list.Add(TestArchive);
-            ImportData data = new ImportData(new List<string>(list));
-
             _importer.ImportConfiguration = _importConfigurations[1];
-            var articles = _importer.Import(data);
+            var articles = _importer.ImportArchive(TestArchive);
 
             Assert.AreEqual(articles.Count, 2);
+            Assert.IsTrue(articles[0].Source.Equals("Continent"));
+            Assert.IsTrue(articles[0].Title.Equals("В центре Киева прошел ежегодный марафон"));
+            Assert.IsTrue(articles[0].Category.Equals("Интернет"));
+            Assert.IsTrue(articles[0].PublicDate.Equals("28.09.2015 11:58"));
+            Assert.IsTrue(articles[0].KeyWords.Equals("ВДНХ"));
+            Assert.IsTrue(articles[0].Author.Equals("http://continent-news.info/newsinfo.html?unitId=941808"));
         }
 
         [TestMethod]
