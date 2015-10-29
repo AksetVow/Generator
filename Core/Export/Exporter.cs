@@ -140,7 +140,8 @@ namespace Core.Export
             text = text.Replace(ArticleText, article.ArticleText);
             text = text.Replace(Author, article.Author);
             text = text.Replace(PublicDate, article.PublicDate);
-            text = text.Replace(Source, article.SourceNumber);
+            text = text.Replace(Source, article.Source);
+            text = text.Replace(SourceNumber, article.SourceNumber);
             text = text.Replace(Title, article.Title);
 
             return text;
