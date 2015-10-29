@@ -21,8 +21,6 @@ namespace Core.Import
 
         public ImportConfiguration ImportConfiguration { get; set; }
 
-
-
         public Importer()
         {
             _baseDestination = Path.Combine(Path.GetTempPath(), Generator);
@@ -33,6 +31,15 @@ namespace Core.Import
             }
 
             _baseDestination = CreateTemporaryFolder();
+        }
+
+        public IList<Article> Import(params string[] files)
+        {
+            ImportData importData = new ImportData(files);
+
+            var result = Import(importData);
+
+            return result;
         }
 
         public IList<Article> Import(ImportData importData)
@@ -53,6 +60,7 @@ namespace Core.Import
             }
         }
 
+        #region PrivateMethods
         private IList<Article> ImportFiles(IEnumerable<string> files)
         {
             var result = new List<Article>();
@@ -210,6 +218,8 @@ namespace Core.Import
 
             return tempFolder;
         }
+
+        #endregion
 
     }
 }

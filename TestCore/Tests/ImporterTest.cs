@@ -32,13 +32,8 @@ namespace TestCore.Tests
         public void TestImportForFiles()
         {
             _importer.ImportConfiguration = _importConfigurations[0];
-            var list = new List<string>();
-            list.Add(TestArticle);
-            list.Add(TestArticleWithMoreContent);
-            ImportData importData = new ImportData(list);
 
-
-            var articles = _importer.Import(importData);
+            var articles = _importer.Import(TestArticle, TestArticleWithMoreContent);
             Assert.AreEqual(articles.Count, 2);
             TestKievArticle(articles[0], false);
             TestUkrGazBankArticle(articles[1], false);
@@ -48,13 +43,8 @@ namespace TestCore.Tests
         public void TestImportForFilesWithSameName()
         {
             _importer.ImportConfiguration = _importConfigurations[0];
-            var list = new List<string>();
-            list.Add(TestArticle);
-            list.Add(TestArticle);
-            ImportData importData = new ImportData(list);
 
-
-            var articles = _importer.Import(importData);
+            var articles = _importer.Import(TestArticle, TestArticle);
             Assert.AreEqual(articles.Count, 2);
             TestKievArticle(articles[0], false);
             TestKievArticle(articles[1], false);
@@ -64,13 +54,7 @@ namespace TestCore.Tests
         public void TestImportForArchives()
         {
             _importer.ImportConfiguration = _importConfigurations[1];
-            var list = new List<string>();
-            list.Add(TestArchive);
-            list.Add(TestArchiveWithoutContentsFile);
-
-            ImportData importData = new ImportData(list);
-
-            var articles = _importer.Import(importData);
+            var articles = _importer.Import(TestArchive, TestArchiveWithoutContentsFile);
             Assert.AreEqual(articles.Count, 4);
 
             TestKievArticle(articles[0]);
@@ -81,12 +65,8 @@ namespace TestCore.Tests
         public void TestImportLargeArchive()
         {
             _importer.ImportConfiguration = _importConfigurations[1];
-            var list = new List<string>();
-            list.Add(TestLargeArchive);
 
-            ImportData importData = new ImportData(list);
-
-            var articles = _importer.Import(importData);
+            var articles = _importer.Import(TestLargeArchive);
             Assert.AreEqual(articles.Count, 712);
         }
 
@@ -94,11 +74,7 @@ namespace TestCore.Tests
         public void TestImportImages()
         {
             _importer.ImportConfiguration = _importConfigurations[0];
-            var list = new List<string>();
-            list.Add(TestArticleWithImages);
-            ImportData importData = new ImportData(list);
-
-            var articles = _importer.Import(importData);
+            var articles = _importer.Import(TestArticleWithImages);
 
             Assert.AreEqual(articles[0].Images.Count, 2);
             Assert.AreEqual(articles[0].Images[0], "10960593_files/1.jpg");
