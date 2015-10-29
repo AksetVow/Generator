@@ -15,6 +15,9 @@ namespace Core
         public string CategoryEmpty { get; set; }
         public string KeyWords { get; set; }
 
+        public string Filepath { get; set; }
+        public string SubjectCategory { get; set; }
+
         public IList<string> Images { get; set; }
 
         //is it needed ?

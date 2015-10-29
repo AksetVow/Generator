@@ -12,6 +12,7 @@ namespace TestCore.Tests
     {
         private const string TestArchive = @"TestData\test.zip";
         private const string TestArchiveWithoutContentsFile = @"TestData\test2.zip";
+        private const string TestLargeArchive = @"TestData\test3.zip";
         private const string TestArticle = @"TestData\10990313.htm";
         private const string TestArticleWithMoreContent = @"TestData\11415944.htm";
 
@@ -33,12 +34,8 @@ namespace TestCore.Tests
             var articles = _importer.ImportArchive(TestArchive);
 
             Assert.AreEqual(articles.Count, 2);
-            Assert.IsTrue(articles[0].Source.Equals("Continent"));
-            Assert.IsTrue(articles[0].Title.Equals("В центре Киева прошел ежегодный марафон"));
-            Assert.IsTrue(articles[0].Category.Equals("Интернет"));
-            Assert.IsTrue(articles[0].PublicDate.Equals("28.09.2015 11:58"));
-            Assert.IsTrue(articles[0].KeyWords.Equals("ВДНХ"));
-            Assert.IsTrue(articles[0].Author.Equals("http://continent-news.info/newsinfo.html?unitId=941808"));
+
+            TestKievArticle(articles[0]);
         }
 
         [TestMethod]
@@ -47,10 +44,7 @@ namespace TestCore.Tests
             _importer.ImportConfiguration = _importConfigurations[0];
             var article = _importer.ImportFile(TestArticle);
 
-            Assert.IsTrue(article.Source.Equals("Continent"));
-            Assert.IsTrue(article.Title.Equals("В центре Киева прошел ежегодный марафон"));
-            Assert.IsTrue(article.Category.Equals("Интернет"));
-            Assert.IsTrue(article.PublicDate.Equals("28.09.2015"));
+            TestKievArticle(article, false);
         }
 
         [TestMethod]
@@ -59,10 +53,7 @@ namespace TestCore.Tests
             _importer.ImportConfiguration = _importConfigurations[0];
             var article = _importer.ImportFile(TestArticleWithMoreContent);
 
-            Assert.IsTrue(article.Source.Equals( "FINBALANCE"));
-            Assert.IsTrue(article.Title.Equals("Укргазбанк  виділяє кредит для ПАТ \"Аграрний фонд\" на 300 млн грн. під 25% річних "));
-            Assert.IsTrue(article.Category.Equals("Интернет"));
-            Assert.IsTrue(article.PublicDate.Equals("20.10.2015"));
+            TestUkrGazBankArticle(article, false);
         }
 
         [TestMethod]
@@ -76,16 +67,116 @@ namespace TestCore.Tests
             var articles = _importer.ImportFiles(list);
             Assert.AreEqual(articles.Count, 2);
 
-            Assert.IsTrue(articles[0].Source.Equals("Continent"));
-            Assert.IsTrue(articles[0].Title.Equals("В центре Киева прошел ежегодный марафон"));
-            Assert.IsTrue(articles[0].Category.Equals("Интернет"));
-            Assert.IsTrue(articles[0].PublicDate.Equals("28.09.2015"));
-
-            Assert.IsTrue(articles[1].Source.Equals("FINBALANCE"));
-            Assert.IsTrue(articles[1].Title.Equals("Укргазбанк  виділяє кредит для ПАТ \"Аграрний фонд\" на 300 млн грн. під 25% річних "));
-            Assert.IsTrue(articles[1].Category.Equals("Интернет"));
-            Assert.IsTrue(articles[1].PublicDate.Equals("20.10.2015"));
+            TestKievArticle(articles[0], false);
+            TestUkrGazBankArticle(articles[1], false);
         }
+
+        [TestMethod]
+        public void TestImportArchives()
+        {
+            _importer.ImportConfiguration = _importConfigurations[1];
+            var list = new List<string>();
+            list.Add(TestArchive);
+            list.Add(TestArchiveWithoutContentsFile);
+
+            var articles = _importer.ImportArchives(list);
+            Assert.AreEqual(articles.Count, 4);
+
+            TestKievArticle(articles[0]);
+            TestKievArticle(articles[2]);
+        }
+
+
+
+        [TestMethod]
+        public void TestImportForFiles()
+        {
+            _importer.ImportConfiguration = _importConfigurations[0];
+            var list = new List<string>();
+            list.Add(TestArticle);
+            list.Add(TestArticleWithMoreContent);
+            ImportData importData = new ImportData(list);
+
+
+            var articles = _importer.Import(importData);
+            Assert.AreEqual(articles.Count, 2);
+            TestKievArticle(articles[0], false);
+            TestUkrGazBankArticle(articles[1], false);
+        }
+
+        [TestMethod]
+        public void TestImportForArchives()
+        {
+            _importer.ImportConfiguration = _importConfigurations[1];
+            var list = new List<string>();
+            list.Add(TestArchive);
+            list.Add(TestArchiveWithoutContentsFile);
+
+            ImportData importData = new ImportData(list);
+
+            var articles = _importer.Import(importData);
+            Assert.AreEqual(articles.Count, 4);
+
+            TestKievArticle(articles[0]);
+            TestKievArticle(articles[2]);
+        }
+
+        [TestMethod]
+        public void TestImportLargeArchive()
+        {
+            _importer.ImportConfiguration = _importConfigurations[1];
+            var list = new List<string>();
+            list.Add(TestLargeArchive);
+
+            ImportData importData = new ImportData(list);
+
+            var articles = _importer.Import(importData);
+            Assert.AreEqual(articles.Count, 712);
+        }
+
+
+        #region PrivateMethodsForTestingSpecificArticlesInformation
+        private void TestKievArticle(Article article, bool full = true)
+        {
+            Assert.IsTrue(article.Source.Equals("Continent"));
+            Assert.IsTrue(article.Title.Equals("В центре Киева прошел ежегодный марафон"));
+            Assert.IsTrue(article.Category.Equals("Интернет"));
+
+
+            if (full)
+            {
+                Assert.IsTrue(article.PublicDate.Equals("28.09.2015 11:58"));
+                Assert.IsTrue(article.KeyWords.Equals("ВДНХ"));
+                Assert.IsTrue(article.Author.Equals("http://continent-news.info/newsinfo.html?unitId=941808"));
+            }
+            else
+            {
+                Assert.IsTrue(article.PublicDate.Equals("28.09.2015"));
+            }
+        
+        }
+
+        private void TestUkrGazBankArticle(Article article, bool full = true)
+        {
+            Assert.IsTrue(article.Title.Equals("Укргазбанк  виділяє кредит для ПАТ \"Аграрний фонд\" на 300 млн грн. під 25% річних "));
+            Assert.IsTrue(article.Category.Equals("Интернет"));
+
+            if (full)
+            {
+                Assert.IsTrue(article.Source.Equals("Экономические известия (www.eizvestia.com)"));
+                Assert.IsTrue(article.PublicDate.Equals("28.09.2015 11:24"));
+                Assert.IsTrue(article.KeyWords.Equals("ВДНХ"));
+                Assert.IsTrue(article.Author.Equals("http://m.eizvestia.com/m?cat=news_kiev&url=153-v-centre-kieva-proshel-ezhegodnyj-marafon"));
+            }
+            else
+            {
+                Assert.IsTrue(article.Source.Equals("FINBALANCE"));
+                Assert.IsTrue(article.PublicDate.Equals("20.10.2015"));
+            }
+
+        }
+
+        #endregion
 
 
     }
