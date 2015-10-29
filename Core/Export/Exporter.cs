@@ -12,6 +12,14 @@ namespace Core.Export
         private Workspace _currentWorkspace;
         private ExportCounterSettings _counterSettings;
 
+        private string ArticleIndex = @"%ARTICLEINDEX%";
+        private string ArticleText = @"%ARTICLETEXT%";
+        private string Author = @"%AUTHOR%";
+        private string PublicDate =  @"%PUBLICDATE%";
+        private string Source = @"%SOURCE%";
+        private string SourceNumber = @"%SOURCENUMBER%";
+        private string Title = @"%TITLE%";
+
 
         public Report Export(Workspace workspace, string resultPath, ExportCounterSettings counterSettings = null)
         {
@@ -22,7 +30,7 @@ namespace Core.Export
             
             result += CreateHeader();
 
-            if (Template.IncludeToc)
+            if (Template.IncludeToc && false)
             {
                 result += CreateTocHeader();
                 result += CreateToc();
@@ -57,12 +65,18 @@ namespace Core.Export
 
         public string CreateTocHeader()
         {
-            throw new NotImplementedException();
+            string path = Path.Combine(Template.Rootdir, Template.Tocheadertpl);
+            string tocHeader = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
+
+            return tocHeader;
         }
 
         public string CreateTocFooter()
         {
-            throw new NotImplementedException();
+            string path = Path.Combine(Template.Rootdir, Template.Tocfootertpl);
+            string tocFooter = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
+
+            return tocFooter;
         }
 
         #endregion 
@@ -106,15 +120,38 @@ namespace Core.Export
 
         public string CreateContent()
         {
-            throw new NotImplementedException();
+            string result = string.Empty;
+            string articleContent = string.Empty;
+            for (int i = 0; i < _currentWorkspace.Articles.Count; i++)
+            {
+                articleContent = CreateContent(_currentWorkspace.Articles[i], (i + 1).ToString());
+                result += articleContent;
+            }
+
+            return result;
         }
+
+        public string CreateContent(Article article, string index)
+        {
+            string path = Path.Combine(Template.Rootdir, Template.Articletpl);
+            string text = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
+
+            text = text.Replace(ArticleIndex, index);
+            text = text.Replace(ArticleText, article.ArticleText);
+            text = text.Replace(Author, article.Author);
+            text = text.Replace(PublicDate, article.PublicDate);
+            text = text.Replace(Source, article.SourceNumber);
+            text = text.Replace(Title, article.Title);
+
+            return text;
+        }
+
         #endregion
 
 
         public Report CreateReport(string result, string resultPath)
         {
-            //TODO implement clever logic when file already exist
-            File.Create(resultPath);
+            //TODO implement clever logic when file already exist is it needed ?
 
             File.WriteAllText(resultPath, result, Encoding.GetEncoding(Importer.TextEncoding));
             Report report = new Report() { FilePath = resultPath };
