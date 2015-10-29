@@ -90,12 +90,18 @@ namespace Core.Export
         #region Content
         public string CreateHeader()
         {
-            throw new NotImplementedException();
+            string path = Path.Combine(Template.Rootdir, Template.Headertpl);
+            string header = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
+
+            return header;
         }
 
         public string CreateFooter()
         {
-            throw new NotImplementedException();
+            string path = Path.Combine(Template.Rootdir, Template.Footertpl);
+            string footer = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
+
+            return footer;
         }
 
         public string CreateContent()

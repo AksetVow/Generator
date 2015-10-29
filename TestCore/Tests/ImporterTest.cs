@@ -3,8 +3,6 @@ using Core.Import;
 using Core.Parser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace TestCore.Tests
 {
