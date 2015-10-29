@@ -84,7 +84,6 @@ namespace Core.Import
 
         }
 
-        //TODO remove magic numbers in groups
         public Article ImportFile(string filepath)
         {
             if (ImportConfiguration == null)
@@ -98,40 +97,40 @@ namespace Core.Import
                 article.ArticleText = matches[0].Value;
 
             matches = Regex.Matches(str, ImportConfiguration.Regetauthor, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 2)
-                article.Author = matches[0].Groups[2].Value;
+            if (matches.Count > 0)
+                article.Author = SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regetpublicdate, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 1)
-                article.PublicDate = matches[0].Groups[1].Value;
+            if (matches.Count > 0)
+                article.PublicDate = SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Categoryempty, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 1)
-                article.CategoryEmpty = matches[0].Groups[1].Value;
+            if (matches.Count > 0)
+                article.CategoryEmpty = SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regetcategory, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 1)
-                article.Category = matches[0].Groups[1].Value;
+            if (matches.Count > 0)
+                article.Category = SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regetkeywords, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 1)
-                article.KeyWords = matches[0].Groups[1].Value;
+            if (matches.Count > 0)
+                article.KeyWords = SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regetregion, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 1)
-                article.Region = matches[0].Groups[1].Value;
+            if (matches.Count > 0)
+                article.Region = SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regetsource, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 1)
-                article.Source = matches[0].Groups[1].Value;
+            if (matches.Count > 0)
+                article.Source = SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regetsourcenumber, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 1)
-                article.SourceNumber = matches[0].Groups[1].Value;
+            if (matches.Count > 0)
+                article.SourceNumber = SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regettitle, RegexOptions.Singleline);
-            if (matches.Count > 0 && matches[0].Groups.Count > 1)
-                article.Title = matches[0].Groups[1].Value;
+            if (matches.Count > 0)
+                article.Title = SelectResultValue(matches[0]);
 
             ProcessImages(str, article);
 
@@ -143,6 +142,24 @@ namespace Core.Import
         
         }
 
+
+        private string SelectResultValue(Match match)
+        {
+            if (match.Groups.Count > 1)
+            {
+                string result;
+                for (int i = match.Groups.Count; i > 0; i--)
+                { 
+                    result = match.Groups[i].Value;
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        return result;
+                    }
+                }
+            }
+
+            return null;
+        }
 
     }
 }
