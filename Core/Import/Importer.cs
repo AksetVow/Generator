@@ -10,16 +10,38 @@ namespace Core.Import
 {
     public class Importer
     {
+        #region Constants
         private const string Generator = "Generator";
         private const string ImgRegex = "<img.+?src=[\"'](.+?)[\"'].*?>";
         public const int TextEncoding = 1251;
+        #endregion
 
-        public ImportConfiguration ImportConfiguration { get; set; }        
+        private string _baseDestination;
+        private string _currentDestination;
+
+        public ImportConfiguration ImportConfiguration { get; set; }
+
+
+
+        public Importer()
+        {
+            _baseDestination = Path.Combine(Path.GetTempPath(), Generator);
+
+            if (!Directory.Exists(_baseDestination))
+            {
+                Directory.CreateDirectory(_baseDestination);
+            }
+
+            _baseDestination = CreateTemporaryFolder();
+        }
 
         public IList<Article> Import(ImportData importData)
         {
             if (ImportConfiguration == null)
                 throw new NullReferenceException("No import configuration");
+
+            _currentDestination = CreateTemporaryFolder();
+
 
             if (ImportConfiguration.IsArchive)
             {
@@ -31,22 +53,36 @@ namespace Core.Import
             }
         }
 
-        public IList<Article> ImportFiles(IEnumerable<string> files)
+        private IList<Article> ImportFiles(IEnumerable<string> files)
         {
             var result = new List<Article>();
             Article article;
 
+            var copies = new List<string>();
+            string newFilePath;
+
             foreach (string file in files)
+            { 
+                newFilePath = Path.Combine(_currentDestination, Path.GetFileName(file));
+                if (File.Exists(newFilePath))
+                {
+                    newFilePath = Path.Combine(_currentDestination, Guid.NewGuid().ToString() + Path.GetExtension(file));
+                }
+                File.Copy(file, newFilePath);
+
+                copies.Add(newFilePath);
+            }
+
+            foreach (var copy in copies)
             {
-                article = ImportFile(file);
+                article = ImportFile(copy);
                 result.Add(article);
             }
 
             return result;
-
         }
 
-        public IList<Article> ImportArchives(IEnumerable<string> archives)
+        private IList<Article> ImportArchives(IEnumerable<string> archives)
         {
             var result = new List<Article>();
             IList<Article> articles;
@@ -55,38 +91,27 @@ namespace Core.Import
             { 
                 articles = ImportArchive(archive);
                 result.AddRange(articles);
+
+                _currentDestination = CreateTemporaryFolder();
             }
 
             return result;
         }
 
-        public IList<Article> ImportArchive(string filepath)
+        private IList<Article> ImportArchive(string filepath)
         {
             if (ImportConfiguration == null)
                 throw new NullReferenceException("No import configuration");
 
-            string randomFolder = Guid.NewGuid().ToString();
+            ZipFile.ExtractToDirectory(filepath, _currentDestination);
 
-            string destination = Path.Combine(Path.GetTempPath(), Generator);
-
-            if (!Directory.Exists(destination))
-            {
-                Directory.CreateDirectory(destination);
-            }
-
-            destination = Path.Combine(destination, randomFolder);
-            Directory.CreateDirectory(destination);
-
-
-            ZipFile.ExtractToDirectory(filepath, destination);
-
-            var files = Directory.GetFiles(destination).Where(f => !f.EndsWith("contents.htm"));
+            var files = Directory.GetFiles(_currentDestination).Where(f => !f.EndsWith("contents.htm"));
 
             return ImportFiles(files);
 
         }
 
-        public Article ImportFile(string filepath)
+        private Article ImportFile(string filepath)
         {
             if (ImportConfiguration == null)
                 throw new NullReferenceException("No import configuration");
@@ -94,6 +119,7 @@ namespace Core.Import
             string str = File.ReadAllText(filepath, Encoding.GetEncoding(TextEncoding));
 
             Article article = new Article();
+            article.Filepath = str;
             var matches = Regex.Matches(str, ImportConfiguration.Regetarticletext, RegexOptions.Singleline);
             if (matches.Count > 0)
                 article.ArticleText = matches[0].Value;
@@ -139,7 +165,7 @@ namespace Core.Import
             return article;
         }
 
-        public void ProcessImages(string str, Article article)
+        private void ProcessImages(string str, Article article)
         {
             var matches = Regex.Matches(str, "<img.+?src=[\"'](.+?)[\"'].*?>", RegexOptions.IgnoreCase);
             var images = new List<string>();
@@ -174,6 +200,15 @@ namespace Core.Import
             }
 
             return null;
+        }
+
+        private string CreateTemporaryFolder()
+        {
+            string randomFolder = Guid.NewGuid().ToString();
+            string tempFolder = Path.Combine(_baseDestination, randomFolder);
+            Directory.CreateDirectory(tempFolder);
+
+            return tempFolder;
         }
 
     }

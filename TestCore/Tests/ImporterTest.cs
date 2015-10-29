@@ -28,68 +28,6 @@ namespace TestCore.Tests
             _importConfigurations = ImportConfigParser.ParseImportSettings(Settings.ImportIni);
         }
 
-
-        [TestMethod]
-        public void TestImportArchive()
-        {
-            _importer.ImportConfiguration = _importConfigurations[1];
-            var articles = _importer.ImportArchive(TestArchive);
-
-            Assert.AreEqual(articles.Count, 2);
-
-            TestKievArticle(articles[0]);
-        }
-
-        [TestMethod]
-        public void TestImportFile()
-        {
-            _importer.ImportConfiguration = _importConfigurations[0];
-            var article = _importer.ImportFile(TestArticle);
-
-            TestKievArticle(article, false);
-        }
-
-        [TestMethod]
-        public void TestImportFileWithMoreContent()
-        {
-            _importer.ImportConfiguration = _importConfigurations[0];
-            var article = _importer.ImportFile(TestArticleWithMoreContent);
-
-            TestUkrGazBankArticle(article, false);
-        }
-
-        [TestMethod]
-        public void TestImportFiles()
-        {
-            _importer.ImportConfiguration = _importConfigurations[0];
-            var list = new List<string>();
-            list.Add(TestArticle);
-            list.Add(TestArticleWithMoreContent);
-
-            var articles = _importer.ImportFiles(list);
-            Assert.AreEqual(articles.Count, 2);
-
-            TestKievArticle(articles[0], false);
-            TestUkrGazBankArticle(articles[1], false);
-        }
-
-        [TestMethod]
-        public void TestImportArchives()
-        {
-            _importer.ImportConfiguration = _importConfigurations[1];
-            var list = new List<string>();
-            list.Add(TestArchive);
-            list.Add(TestArchiveWithoutContentsFile);
-
-            var articles = _importer.ImportArchives(list);
-            Assert.AreEqual(articles.Count, 4);
-
-            TestKievArticle(articles[0]);
-            TestKievArticle(articles[2]);
-        }
-
-
-
         [TestMethod]
         public void TestImportForFiles()
         {
@@ -104,6 +42,22 @@ namespace TestCore.Tests
             Assert.AreEqual(articles.Count, 2);
             TestKievArticle(articles[0], false);
             TestUkrGazBankArticle(articles[1], false);
+        }
+
+        [TestMethod]
+        public void TestImportForFilesWithSameName()
+        {
+            _importer.ImportConfiguration = _importConfigurations[0];
+            var list = new List<string>();
+            list.Add(TestArticle);
+            list.Add(TestArticle);
+            ImportData importData = new ImportData(list);
+
+
+            var articles = _importer.Import(importData);
+            Assert.AreEqual(articles.Count, 2);
+            TestKievArticle(articles[0], false);
+            TestKievArticle(articles[1], false);
         }
 
         [TestMethod]
@@ -139,13 +93,16 @@ namespace TestCore.Tests
         [TestMethod]
         public void TestImportImages()
         {
-            string str = File.ReadAllText(TestArticleWithImages, Encoding.GetEncoding(Importer.TextEncoding));
-            Article article = new Article();
+            _importer.ImportConfiguration = _importConfigurations[0];
+            var list = new List<string>();
+            list.Add(TestArticleWithImages);
+            ImportData importData = new ImportData(list);
 
-            _importer.ProcessImages(str, article);
-            Assert.AreEqual(article.Images.Count, 2);
-            Assert.AreEqual(article.Images[0], "10960593_files/1.jpg");
-            Assert.AreEqual(article.Images[1], "10960593_files/2.jpg");
+            var articles = _importer.Import(importData);
+
+            Assert.AreEqual(articles[0].Images.Count, 2);
+            Assert.AreEqual(articles[0].Images[0], "10960593_files/1.jpg");
+            Assert.AreEqual(articles[0].Images[1], "10960593_files/2.jpg");
         }
 
 
@@ -155,6 +112,7 @@ namespace TestCore.Tests
             Assert.IsTrue(article.Source.Equals("Continent"));
             Assert.IsTrue(article.Title.Equals("В центре Киева прошел ежегодный марафон"));
             Assert.IsTrue(article.Category.Equals("Интернет"));
+            Assert.IsFalse(string.IsNullOrEmpty(article.Filepath));
 
 
             if (full)
@@ -174,6 +132,7 @@ namespace TestCore.Tests
         {
             Assert.IsTrue(article.Title.Equals("Укргазбанк  виділяє кредит для ПАТ \"Аграрний фонд\" на 300 млн грн. під 25% річних "));
             Assert.IsTrue(article.Category.Equals("Интернет"));
+            Assert.IsFalse(string.IsNullOrEmpty(article.Filepath));
 
             if (full)
             {
@@ -190,6 +149,67 @@ namespace TestCore.Tests
 
         }
 
+        #endregion
+
+        #region OldTestMethods
+        //[TestMethod]
+        //public void TestImportArchive()
+        //{
+        //    _importer.ImportConfiguration = _importConfigurations[1];
+        //    var articles = _importer.ImportArchive(TestArchive);
+
+        //    Assert.AreEqual(articles.Count, 2);
+
+        //    TestKievArticle(articles[0]);
+        //}
+
+        //[TestMethod]
+        //public void TestImportFile()
+        //{
+        //    _importer.ImportConfiguration = _importConfigurations[0];
+        //    var article = _importer.ImportFile(TestArticle);
+
+        //    TestKievArticle(article, false);
+        //}
+
+        //[TestMethod]
+        //public void TestImportFileWithMoreContent()
+        //{
+        //    _importer.ImportConfiguration = _importConfigurations[0];
+        //    var article = _importer.ImportFile(TestArticleWithMoreContent);
+
+        //    TestUkrGazBankArticle(article, false);
+        //}
+
+        //[TestMethod]
+        //public void TestImportFiles()
+        //{
+        //    _importer.ImportConfiguration = _importConfigurations[0];
+        //    var list = new List<string>();
+        //    list.Add(TestArticle);
+        //    list.Add(TestArticleWithMoreContent);
+
+        //    var articles = _importer.ImportFiles(list);
+        //    Assert.AreEqual(articles.Count, 2);
+
+        //    TestKievArticle(articles[0], false);
+        //    TestUkrGazBankArticle(articles[1], false);
+        //}
+
+        //[TestMethod]
+        //public void TestImportArchives()
+        //{
+        //    _importer.ImportConfiguration = _importConfigurations[1];
+        //    var list = new List<string>();
+        //    list.Add(TestArchive);
+        //    list.Add(TestArchiveWithoutContentsFile);
+
+        //    var articles = _importer.ImportArchives(list);
+        //    Assert.AreEqual(articles.Count, 4);
+
+        //    TestKievArticle(articles[0]);
+        //    TestKievArticle(articles[2]);
+        //}
         #endregion
 
 

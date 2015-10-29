@@ -20,7 +20,11 @@ namespace TestCore.Tests
         public void TestExport()
         {
             _importer.ImportConfiguration = _importConfigurations[1];
-            var articles = _importer.ImportArchive(ImporterTest.TestArchive);
+            List<string> archives = new List<string>();
+            archives.Add(ImporterTest.TestArchive);
+
+            ImportData importData = new ImportData(archives);
+            var articles = _importer.Import(importData);
             Assert.AreEqual(articles.Count, 2);
 
             Workspace workspace = new Workspace();
