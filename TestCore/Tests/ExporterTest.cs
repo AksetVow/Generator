@@ -15,6 +15,7 @@ namespace TestCore.Tests
         private Exporter _exporter;
         private IList<ImportConfiguration> _importConfigurations;
         private IList<Template> _templates;
+        private const string FileExtension = ".htm";
 
         [TestMethod]
         public void TestExport()
@@ -31,7 +32,7 @@ namespace TestCore.Tests
             workspace.Add(articles);
 
             _exporter.Template = _templates[0];
-            var result = _exporter.Export(workspace);
+            var result = _exporter.Export(workspace, Guid.NewGuid().ToString() + FileExtension);
 
             Assert.IsNotNull(result);
         }
