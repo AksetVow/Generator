@@ -1,9 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Core;
 using Core.Import;
-using System.Collections.Generic;
 using Core.Parser;
-using Core;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace TestCore.Tests
 {
@@ -15,6 +16,7 @@ namespace TestCore.Tests
         private const string TestLargeArchive = @"TestData\test3.zip";
         private const string TestArticle = @"TestData\10990313.htm";
         private const string TestArticleWithMoreContent = @"TestData\11415944.htm";
+        private const string TestArticleWithImages = @"TestData\10960593.htm";
 
         private Importer _importer;
         private IList<ImportConfiguration> _importConfigurations;
@@ -132,6 +134,18 @@ namespace TestCore.Tests
 
             var articles = _importer.Import(importData);
             Assert.AreEqual(articles.Count, 712);
+        }
+
+        [TestMethod]
+        public void TestImportImages()
+        {
+            string str = File.ReadAllText(TestArticleWithImages, Encoding.GetEncoding(Importer.TextEncoding));
+            Article article = new Article();
+
+            _importer.ProcessImages(str, article);
+            Assert.AreEqual(article.Images.Count, 2);
+            Assert.AreEqual(article.Images[0], "10960593_files/1.jpg");
+            Assert.AreEqual(article.Images[1], "10960593_files/2.jpg");
         }
 
 

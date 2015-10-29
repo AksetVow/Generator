@@ -11,6 +11,8 @@ namespace Core.Import
     public class Importer
     {
         private const string Generator = "Generator";
+        private const string ImgRegex = "<img.+?src=[\"'](.+?)[\"'].*?>";
+        public const int TextEncoding = 1251;
 
         public ImportConfiguration ImportConfiguration { get; set; }        
 
@@ -89,7 +91,7 @@ namespace Core.Import
             if (ImportConfiguration == null)
                 throw new NullReferenceException("No import configuration");
 
-            string str = File.ReadAllText(filepath, Encoding.GetEncoding(1251));
+            string str = File.ReadAllText(filepath, Encoding.GetEncoding(TextEncoding));
 
             Article article = new Article();
             var matches = Regex.Matches(str, ImportConfiguration.Regetarticletext, RegexOptions.Singleline);
@@ -137,9 +139,22 @@ namespace Core.Import
             return article;
         }
 
-        private void ProcessImages(string str, Article article)
-        { 
-        
+        public void ProcessImages(string str, Article article)
+        {
+            var matches = Regex.Matches(str, "<img.+?src=[\"'](.+?)[\"'].*?>", RegexOptions.IgnoreCase);
+            var images = new List<string>();
+            string image;
+
+            for (int i = 0; i < matches.Count; i ++)
+            {
+                image = SelectResultValue(matches[i]);
+                if (image != null)
+                {
+                    images.Add(image);
+                }
+            }
+
+            article.Images = images;
         }
 
 
