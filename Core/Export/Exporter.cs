@@ -22,6 +22,10 @@ namespace Core.Export
         private string SourceNumber = @"%SOURCENUMBER%";
         private string Title = @"%TITLE%";
 
+        private string CountList = @"%CNTLIST%";
+        private string Rating = @"%RATINGS%";
+        private string AlsoIn = @"%ALSOIN%";
+
 
         public Report Export(Workspace workspace, string resultPath, UserRequestData userRequestData, ExportCounterSettings counterSettings = null)
         {
@@ -42,13 +46,6 @@ namespace Core.Export
             }
 
             result += CreateContent();
-
-            if (_counterSettings != null)
-            {
-                result += CreateCountTableHeader();
-                result += CreateCountTable();
-                result += CreateCountTableFooter();
-            }
 
             result += CreateFooter();
 
@@ -145,6 +142,16 @@ namespace Core.Export
             string path = Path.Combine(Template.Rootdir, Template.Footertpl);
             string footer = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
 
+            if (_counterSettings == null)
+            {
+                footer = footer.Replace(CountList, string.Empty);
+                footer = footer.Replace(Rating, string.Empty);
+            }
+            else
+            { 
+            
+            }
+
             return footer;
         }
 
@@ -169,10 +176,11 @@ namespace Core.Export
             text = text.Replace(ArticleIndex, index);
             text = text.Replace(ArticleText, article.ArticleText);
             text = text.Replace(Author, article.Author);
-            text = text.Replace(PublicDate, article.PublicDate);
+            text = text.Replace(PublicDate, string.Empty);
             text = text.Replace(Source, article.Source);
             text = text.Replace(SourceNumber, article.SourceNumber);
             text = text.Replace(Title, article.Title);
+            text = text.Replace(AlsoIn, string.Empty);
 
             return text;
         }
