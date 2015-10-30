@@ -11,6 +11,7 @@ namespace Core.Export
 
         private Workspace _currentWorkspace;
         private ExportCounterSettings _counterSettings;
+        private UserRequestData _userRequestData;
 
         private string ArticleIndex = @"%ARTICLEINDEX%";
         private string ArticleText = @"%ARTICLETEXT%";
@@ -21,10 +22,11 @@ namespace Core.Export
         private string Title = @"%TITLE%";
 
 
-        public Report Export(Workspace workspace, string resultPath, ExportCounterSettings counterSettings = null)
+        public Report Export(Workspace workspace, string resultPath, UserRequestData userRequestData, ExportCounterSettings counterSettings = null)
         {
             _currentWorkspace = workspace;
             _counterSettings = counterSettings;
+            _userRequestData = userRequestData;
 
             string result = string.Empty;
             
@@ -106,6 +108,11 @@ namespace Core.Export
         {
             string path = Path.Combine(Template.Rootdir, Template.Headertpl);
             string header = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
+
+            header = header.Replace(UserRequestData.ReportNameRegex, _userRequestData.ReportName);
+            header = header.Replace(UserRequestData.ReportMaterialsRegex, _userRequestData.ReportMaterials);
+            header = header.Replace(UserRequestData.ReportStartDateRegex, _userRequestData.ReportStartDateString);
+            header = header.Replace(UserRequestData.ReportEndDateRegex, _userRequestData.ReportEndDateString);
 
             return header;
         }

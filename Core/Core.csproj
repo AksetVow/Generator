@@ -51,6 +51,7 @@
     <Compile Include="Command\Commands\DeleteCommand.cs" />
     <Compile Include="Command\Commands\DeleteImageCommand.cs" />
     <Compile Include="Export\ExportCounterSettings.cs" />
+    <Compile Include="Export\UserRequestData.cs" />
     <Compile Include="Import\ImportData.cs" />
     <Compile Include="Parser\ExportConfigParser.cs" />
     <Compile Include="Export\Exporter.cs" />

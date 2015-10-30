@@ -29,7 +29,7 @@ namespace TestCore.Tests
             workspace.Add(articles);
 
             _exporter.Template = _templates[0];
-            var result = _exporter.Export(workspace, Guid.NewGuid().ToString() + FileExtension);
+            var result = _exporter.Export(workspace, Guid.NewGuid().ToString() + FileExtension, new UserRequestData());
 
             Assert.IsNotNull(result);
         }
