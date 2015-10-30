@@ -127,7 +127,7 @@ namespace Core.Import
             string str = File.ReadAllText(filepath, Encoding.GetEncoding(TextEncoding));
 
             Article article = new Article();
-            article.Filepath = str;
+            article.Filepath = filepath;
             var matches = Regex.Matches(str, ImportConfiguration.Regetarticletext, RegexOptions.Singleline);
             if (matches.Count > 0)
                 article.ArticleText = matches[0].Value;

@@ -97,7 +97,11 @@ namespace Core.Parser
             {
                 template.Tocfootertpl = line.Substring(line.IndexOf('=') + 1);
             }
+        }
 
+        private static void ParseForImages(Template template)
+        { 
+            //TODO implement logic for parsing template
         }
     }
 }

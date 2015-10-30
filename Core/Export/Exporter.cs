@@ -49,6 +49,8 @@ namespace Core.Export
 
             result += CreateFooter();
 
+            result = ExportTemplateImages(result);
+
             var report = CreateReport(result, resultPath);
 
             return report;
@@ -182,10 +184,48 @@ namespace Core.Export
             text = text.Replace(Title, article.Title);
             text = text.Replace(AlsoIn, string.Empty);
 
+            text = ExportImages(article, text);
+
+            return text;
+        }
+
+        private string ExportImages(Article article, string text)
+        {
+            //string newPath;
+            //string oldPath;
+            //string image;
+            //if (!Directory.Exists(ResultResourceDirectory))
+            //{
+            //    Directory.CreateDirectory(ResultResourceDirectory);
+            //}
+
+            //foreach (string img in article.Images)
+            //{
+            //    image = img;
+            //    if (image.StartsWith("/"))
+            //    {
+            //        image = image.Substring(1);
+            //    }
+            //    image = image.Replace("/", @"\");
+
+            //    oldPath = Path.Combine(Path.GetDirectoryName(article.Filepath), image);
+            //    newPath = Path.Combine(ResultResourceDirectory, Path.GetFileName(image));
+            //    if (File.Exists(oldPath))
+            //    {
+            //        File.Copy(oldPath, newPath);
+            //        text = text.Replace(img, newPath);
+            //    }
+            //}
             return text;
         }
 
         #endregion
+
+        private string ExportTemplateImages(string text)
+        {
+            //TODO Implement method
+            return text;
+        }
 
 
         private Report CreateReport(string result, string resultPath)
@@ -196,6 +236,30 @@ namespace Core.Export
             Report report = new Report() { FilePath = resultPath };
 
             return report;
+        }
+
+        private string ResultDirectory
+        {
+            get 
+            {
+                return Path.GetDirectoryName(_resultPath);
+            }
+        }
+
+        private string ResultName
+        {
+            get
+            {
+                return Path.GetFileName(_resultPath);
+            }
+        }
+
+        private string ResultResourceDirectory
+        {
+            get
+            {
+                return Path.GetFileNameWithoutExtension(_resultPath);
+            }
         }
 
         #endregion

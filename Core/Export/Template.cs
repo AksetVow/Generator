@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace Core.Export
 {
     public class Template
@@ -13,5 +14,6 @@ namespace Core.Export
         public string Toctpl { get; set; }
         public string Tocfootertpl { get; set; }
 
+        public IList<string> Images { get; set; }
     }
 }
