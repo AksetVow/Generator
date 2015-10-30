@@ -12,6 +12,7 @@ namespace Core.Export
         private Workspace _currentWorkspace;
         private ExportCounterSettings _counterSettings;
         private UserRequestData _userRequestData;
+        private string _resultPath;
 
         private string ArticleIndex = @"%ARTICLEINDEX%";
         private string ArticleText = @"%ARTICLETEXT%";
@@ -27,12 +28,13 @@ namespace Core.Export
             _currentWorkspace = workspace;
             _counterSettings = counterSettings;
             _userRequestData = userRequestData;
+            _resultPath = resultPath;
 
             string result = string.Empty;
             
             result += CreateHeader();
 
-            if (Template.IncludeToc && false)
+            if (Template.IncludeToc)
             {
                 result += CreateTocHeader();
                 result += CreateToc();
@@ -60,12 +62,33 @@ namespace Core.Export
         #region PrivateMethods
 
         #region TOC
-        public string CreateToc()
+        private string CreateTocItem(Article article, string index)
         {
-            throw new NotImplementedException();
+            string path = Path.Combine(Template.Rootdir, Template.Toctpl);
+            string tocText = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
+
+            tocText = tocText.Replace(ArticleIndex, index);
+            tocText = tocText.Replace(Title, article.Title);
+            tocText = tocText.Replace(Source, article.Source);
+            tocText = tocText.Replace(PublicDate, string.Empty);
+            tocText = tocText.Replace(SourceNumber, article.SourceNumber);
+            
+
+            return tocText;
         }
 
-        public string CreateTocHeader()
+        private string CreateToc()
+        {
+            string result = string.Empty;
+            for (int i = 0; i < _currentWorkspace.Articles.Count; i++)
+            {
+                result += CreateTocItem(_currentWorkspace.Articles[i], (i + 1).ToString());
+            }
+
+            return result;
+        }
+
+        private string CreateTocHeader()
         {
             string path = Path.Combine(Template.Rootdir, Template.Tocheadertpl);
             string tocHeader = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
@@ -73,7 +96,7 @@ namespace Core.Export
             return tocHeader;
         }
 
-        public string CreateTocFooter()
+        private string CreateTocFooter()
         {
             string path = Path.Combine(Template.Rootdir, Template.Tocfootertpl);
             string tocFooter = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
@@ -85,17 +108,17 @@ namespace Core.Export
 
         #region Counter
 
-        public string CreateCountTable()
+        private string CreateCountTable()
         {
             throw new NotImplementedException();
         }
 
-        public string CreateCountTableHeader()
+        private string CreateCountTableHeader()
         {
             throw new NotImplementedException();
         }
 
-        public string CreateCountTableFooter()
+        private string CreateCountTableFooter()
         {
             throw new NotImplementedException();
         }
@@ -104,7 +127,7 @@ namespace Core.Export
         #endregion
 
         #region Content
-        public string CreateHeader()
+        private string CreateHeader()
         {
             string path = Path.Combine(Template.Rootdir, Template.Headertpl);
             string header = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
@@ -117,7 +140,7 @@ namespace Core.Export
             return header;
         }
 
-        public string CreateFooter()
+        private string CreateFooter()
         {
             string path = Path.Combine(Template.Rootdir, Template.Footertpl);
             string footer = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
@@ -125,20 +148,20 @@ namespace Core.Export
             return footer;
         }
 
-        public string CreateContent()
+        private string CreateContent()
         {
             string result = string.Empty;
             string articleContent = string.Empty;
             for (int i = 0; i < _currentWorkspace.Articles.Count; i++)
             {
-                articleContent = CreateContent(_currentWorkspace.Articles[i], (i + 1).ToString());
+                articleContent = CreateContentItem(_currentWorkspace.Articles[i], (i + 1).ToString());
                 result += articleContent;
             }
 
             return result;
         }
 
-        public string CreateContent(Article article, string index)
+        private string CreateContentItem(Article article, string index)
         {
             string path = Path.Combine(Template.Rootdir, Template.Articletpl);
             string text = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
@@ -157,7 +180,7 @@ namespace Core.Export
         #endregion
 
 
-        public Report CreateReport(string result, string resultPath)
+        private Report CreateReport(string result, string resultPath)
         {
             //TODO implement clever logic when file already exist is it needed ?
 
