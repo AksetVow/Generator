@@ -14,17 +14,19 @@ namespace Core.Export
         private UserRequestData _userRequestData;
         private string _resultPath;
 
-        private string ArticleIndex = @"%ARTICLEINDEX%";
-        private string ArticleText = @"%ARTICLETEXT%";
-        private string Author = @"%AUTHOR%";
-        private string PublicDate =  @"%PUBLICDATE%";
-        private string Source = @"%SOURCE%";
-        private string SourceNumber = @"%SOURCENUMBER%";
-        private string Title = @"%TITLE%";
+        private const string ArticleIndex = @"%ARTICLEINDEX%";
+        private const string ArticleText = @"%ARTICLETEXT%";
+        private const string Author = @"%AUTHOR%";
+        private const string PublicDate = @"%PUBLICDATE%";
+        private const string Source = @"%SOURCE%";
+        private const string SourceNumber = @"%SOURCENUMBER%";
+        private const string Title = @"%TITLE%";
 
-        private string CountList = @"%CNTLIST%";
-        private string Rating = @"%RATINGS%";
-        private string AlsoIn = @"%ALSOIN%";
+        private const string CountList = @"%CNTLIST%";
+        private const string Rating = @"%RATINGS%";
+        private const string AlsoIn = @"%ALSOIN%";
+
+        private const string Http = "http";
 
 
         public Report Export(Workspace workspace, string resultPath, UserRequestData userRequestData, ExportCounterSettings counterSettings = null)
@@ -192,41 +194,22 @@ namespace Core.Export
             return text;
         }
 
-        //TODO: refactor this method
         private string ExportImages(Article article, string text)
         {
-            string newPath;
-            string oldPath;
-            string image;
+            string newPath, oldPath, image, imageDirectory;
+
             if (!Directory.Exists(ResultResourceDirectory))
             {
                 Directory.CreateDirectory(ResultResourceDirectory);
             }
-            string imageDirectory;
 
             foreach (string img in article.Images)
             {
                 if (isUrl(img))
-                {
                     continue;
-                }
-
-                image = img;
-                if (image.StartsWith("/"))
-                {
-                    image = image.Substring(1);
-                }
-                image = image.Replace("/", @"\");
-
-                imageDirectory = Path.GetDirectoryName(image);
-
+                image = ToBackslashString(img);
                 oldPath = Path.Combine(Path.GetDirectoryName(article.Filepath), image);
-
-                imageDirectory = Path.Combine(ResultResourceDirectory, imageDirectory);
-                if (!Directory.Exists(imageDirectory))
-                {
-                    Directory.CreateDirectory(imageDirectory);
-                }
+                imageDirectory = CreateImageDirectory(image);
 
                 newPath = Path.Combine(imageDirectory, Path.GetFileName(image));
                 if (File.Exists(oldPath))
@@ -240,7 +223,32 @@ namespace Core.Export
 
         private bool isUrl(string str)
         {
-            return str.StartsWith("http");
+            return str.StartsWith(Http);
+        }
+
+        private string CreateImageDirectory(string image)
+        {
+            string imageDirectory = Path.GetDirectoryName(image);
+            imageDirectory = Path.Combine(ResultResourceDirectory, imageDirectory);
+            if (!Directory.Exists(imageDirectory))
+            {
+                Directory.CreateDirectory(imageDirectory);
+            }
+
+            return imageDirectory;
+        }
+
+
+        private string ToBackslashString(string img)
+        {
+            var image = img;
+            if (image.StartsWith("/"))
+            {
+                image = image.Substring(1);
+            }
+            image = image.Replace("/", @"\");
+
+            return image;
         }
 
         #endregion
