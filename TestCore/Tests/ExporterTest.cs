@@ -52,6 +52,23 @@ namespace TestCore.Tests
             Assert.IsNotNull(result);
         }
 
+        [TestMethod]
+        public void TestExportSmallArchiveWithPictures()
+        {
+            _importer.ImportConfiguration = _importConfigurations[1];
+
+            var articles = _importer.Import(ImporterTest.TestSmallArchiveWithPictures);
+            Assert.AreEqual(articles.Count, 71);
+
+            Workspace workspace = new Workspace();
+            workspace.Add(articles);
+
+            _exporter.Template = _templates[0];
+            var result = _exporter.Export(workspace, Guid.NewGuid().ToString() + FileExtension, new UserRequestData());
+
+            Assert.IsNotNull(result);
+        }
+
         [TestInitialize]
         public void Initialize()
         {

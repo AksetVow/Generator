@@ -12,6 +12,7 @@ namespace TestCore.Tests
         public const string TestArchive = @"TestData\test.zip";
         public const string TestArchiveWithoutContentsFile = @"TestData\test2.zip";
         public const string TestLargeArchive = @"TestData\test3.zip";
+        public const string TestSmallArchiveWithPictures = @"TestData\test4.zip";
         public const string TestArticle = @"TestData\10990313.htm";
         public const string TestArticleWithMoreContent = @"TestData\11415944.htm";
         public const string TestArticleWithImages = @"TestData\10960593.htm";

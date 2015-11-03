@@ -184,39 +184,63 @@ namespace Core.Export
             text = text.Replace(Title, article.Title);
             text = text.Replace(AlsoIn, string.Empty);
 
-            text = ExportImages(article, text);
+            if (article.Images.Count > 0)
+            {
+                text = ExportImages(article, text);
+            }
 
             return text;
         }
 
+        //TODO: refactor this method
         private string ExportImages(Article article, string text)
         {
-            //string newPath;
-            //string oldPath;
-            //string image;
-            //if (!Directory.Exists(ResultResourceDirectory))
-            //{
-            //    Directory.CreateDirectory(ResultResourceDirectory);
-            //}
+            string newPath;
+            string oldPath;
+            string image;
+            if (!Directory.Exists(ResultResourceDirectory))
+            {
+                Directory.CreateDirectory(ResultResourceDirectory);
+            }
+            string imageDirectory;
 
-            //foreach (string img in article.Images)
-            //{
-            //    image = img;
-            //    if (image.StartsWith("/"))
-            //    {
-            //        image = image.Substring(1);
-            //    }
-            //    image = image.Replace("/", @"\");
+            foreach (string img in article.Images)
+            {
+                if (isUrl(img))
+                {
+                    continue;
+                }
 
-            //    oldPath = Path.Combine(Path.GetDirectoryName(article.Filepath), image);
-            //    newPath = Path.Combine(ResultResourceDirectory, Path.GetFileName(image));
-            //    if (File.Exists(oldPath))
-            //    {
-            //        File.Copy(oldPath, newPath);
-            //        text = text.Replace(img, newPath);
-            //    }
-            //}
+                image = img;
+                if (image.StartsWith("/"))
+                {
+                    image = image.Substring(1);
+                }
+                image = image.Replace("/", @"\");
+
+                imageDirectory = Path.GetDirectoryName(image);
+
+                oldPath = Path.Combine(Path.GetDirectoryName(article.Filepath), image);
+
+                imageDirectory = Path.Combine(ResultResourceDirectory, imageDirectory);
+                if (!Directory.Exists(imageDirectory))
+                {
+                    Directory.CreateDirectory(imageDirectory);
+                }
+
+                newPath = Path.Combine(imageDirectory, Path.GetFileName(image));
+                if (File.Exists(oldPath))
+                {
+                    File.Copy(oldPath, newPath);
+                    text = text.Replace(img, newPath);
+                }
+            }
             return text;
+        }
+
+        private bool isUrl(string str)
+        {
+            return str.StartsWith("http");
         }
 
         #endregion
