@@ -56,51 +56,64 @@ namespace Core.Import
             }
             else
             {
-                return ImportFiles(importData.FilePathes);
+                return ImportFiles(importData.FilePathes, true);
             }
         }
 
         #region PrivateMethods
-        private IList<Article> ImportFiles(IEnumerable<string> files)
+        private IList<Article> ImportFiles(IEnumerable<string> files, bool copyToTemp)
         {
             var result = new List<Article>();
             Article article;
 
+            IEnumerable<string> resultFiles;
             var copies = new List<string>();
-            string newFilePath;
 
-            foreach (string file in files)
-            { 
-                newFilePath = Path.Combine(_currentDestination, Path.GetFileName(file));
-                if (File.Exists(newFilePath))
+            if (copyToTemp)
+            {
+                string newFilePath;
+
+                foreach (string file in files)
                 {
-                    newFilePath = Path.Combine(_currentDestination, Guid.NewGuid().ToString() + Path.GetExtension(file));
+                    newFilePath = Path.Combine(_currentDestination, Path.GetFileName(file));
+                    if (File.Exists(newFilePath))
+                    {
+                        newFilePath = Path.Combine(_currentDestination, Guid.NewGuid().ToString() + Path.GetExtension(file));
+                    }
+                    File.Copy(file, newFilePath);
+                    copies.Add(newFilePath);
                 }
-                File.Copy(file, newFilePath);
 
-                copies.Add(newFilePath);
+                resultFiles = copies;
+            }
+            else
+            {
+                resultFiles = files;
             }
 
-            foreach (var copy in copies)
+            foreach (var file in resultFiles)
             {
-                article = ImportFile(copy);
+                article = ImportFile(file);
                 result.Add(article);
             }
 
             return result;
         }
 
-        private IList<Article> ImportArchives(IEnumerable<string> archives)
+        private IList<Article> ImportArchives(IList<string> archives)
         {
             var result = new List<Article>();
             IList<Article> articles;
 
-            foreach (string archive in archives)
-            { 
-                articles = ImportArchive(archive);
+            for (int i = 0; i < archives.Count; i ++ )
+            {
+                articles = ImportArchive(archives[i]);
                 result.AddRange(articles);
 
-                _currentDestination = CreateTemporaryFolder();
+                if (i != archives.Count - 1)
+                {
+                    _currentDestination = CreateTemporaryFolder();
+                }
             }
 
             return result;
@@ -115,7 +128,7 @@ namespace Core.Import
 
             var files = Directory.GetFiles(_currentDestination).Where(f => !f.EndsWith("contents.htm"));
 
-            return ImportFiles(files);
+            return ImportFiles(files, false);
 
         }
 
