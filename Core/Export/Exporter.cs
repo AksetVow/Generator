@@ -13,6 +13,7 @@ namespace Core.Export
         private ExportCounterSettings _counterSettings;
         private UserRequestData _userRequestData;
         private string _resultPath;
+        private int _exportImageCounter = 0;
 
         private const string ArticleIndex = @"%ARTICLEINDEX%";
         private const string ArticleText = @"%ARTICLETEXT%";
@@ -27,10 +28,12 @@ namespace Core.Export
         private const string AlsoIn = @"%ALSOIN%";
 
         private const string Http = "http";
+        private const string TemplateImageName = "_tplimg_";
 
 
         public Report Export(Workspace workspace, string resultPath, UserRequestData userRequestData, ExportCounterSettings counterSettings = null)
         {
+            _exportImageCounter = 0;
             _currentWorkspace = workspace;
             _counterSettings = counterSettings;
             _userRequestData = userRequestData;
@@ -253,12 +256,56 @@ namespace Core.Export
 
         #endregion
 
+        #region ExportImagesMethods
         private string ExportTemplateImages(string text)
         {
-            //TODO Implement method
+            if (Template.Images == null)
+            {
+                return text;
+            }
+
+            for (int i = 0; i < Template.Images.Count; i++)
+            {
+                text = ExportTemplateImage(text, Template.Images[i], i);
+            }
+
             return text;
         }
 
+        private string ExportTemplateImage(string text, string image, int index)
+        {
+            if (isUrl(image))
+            {
+                return text;
+            }
+
+            if (!Directory.Exists(ResultResourceDirectory))
+            {
+                Directory.CreateDirectory(ResultResourceDirectory);
+            }
+
+            string oldPath = GetOldPathForTemplateImage(image);
+            string newPath = GetNewPathForTemplateImage(image);
+            string result = text.Replace(image, newPath);
+
+            if (File.Exists(oldPath))
+            {
+                File.Copy(oldPath, newPath);
+            }
+
+            return result;
+        }
+
+        private string GetOldPathForTemplateImage(string image)
+        {
+            return Path.Combine(Template.Rootdir, image);
+        }
+
+        private string GetNewPathForTemplateImage(string image)
+        {
+            return Path.Combine(ResultResourceDirectory, TemplateImageName + _exportImageCounter++ + Path.GetExtension(image));
+        }
+        #endregion
 
         private Report CreateReport(string result, string resultPath)
         {
@@ -269,6 +316,8 @@ namespace Core.Export
 
             return report;
         }
+
+        #region PivateProperties
 
         private string ResultDirectory
         {
@@ -293,6 +342,8 @@ namespace Core.Export
                 return Path.GetFileNameWithoutExtension(_resultPath);
             }
         }
+
+        #endregion
 
         #endregion
 

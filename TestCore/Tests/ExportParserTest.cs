@@ -27,6 +27,8 @@ namespace TestCore.Tests
         }
 
         [TestMethod]
+        //"Ignore due to old test structure"
+        [Ignore]
         public void TestParseExportSettings_Old()
         {
             Assert.IsTrue(File.Exists("exports_old.ini"));

@@ -1,4 +1,6 @@
 ﻿using Core.Export;
+using Core.Import;
+using Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,6 +40,7 @@ namespace Core.Parser
                 {
                     if (template != null)
                     {
+                        ParseForImages(template);
                         templates.Add(template);
                     }
 
@@ -56,6 +59,7 @@ namespace Core.Parser
 
             if (!templates.Contains(template))
             {
+                ParseForImages(template);
                 templates.Add(template);
             }
 
@@ -100,8 +104,22 @@ namespace Core.Parser
         }
 
         private static void ParseForImages(Template template)
-        { 
-            //TODO implement logic for parsing template
+        {
+            string footerPath = Path.Combine(template.Rootdir, template.Footertpl);
+            string footer = File.ReadAllText(footerPath, Encoding.GetEncoding(Importer.TextEncoding));
+
+            string headerPath = Path.Combine(template.Rootdir, template.Headertpl);
+            string header = File.ReadAllText(headerPath, Encoding.GetEncoding(Importer.TextEncoding));
+
+            List<string> images = new List<string>();
+
+            var footerImages = Regex.Matches(footer, Importer.ImageRegex, RegexOptions.IgnoreCase);
+            var headerImages = Regex.Matches(header, Importer.ImageRegex, RegexOptions.IgnoreCase);
+
+            MatchHelper.ProcessImages(footerImages, images);
+            MatchHelper.ProcessImages(headerImages, images);
+
+            template.Images = images;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -12,8 +13,9 @@ namespace Core.Import
     {
         #region Constants
         private const string Generator = "Generator";
-        private const string ImgRegex = "<img.+?src=[\"'](.+?)[\"'].*?>";
+        public const string ImageRegex = "<img.+?src=[\"'](.+?)[\"'].*?>";
         public const int TextEncoding = 1251;
+        private const string ArticleTextBegin = "<p class=\"documenttext\">";
         #endregion
 
         private string _baseDestination;
@@ -143,84 +145,72 @@ namespace Core.Import
             article.Filepath = filepath;
             var matches = Regex.Matches(str, ImportConfiguration.Regetarticletext, RegexOptions.Singleline);
             if (matches.Count > 0)
-                article.ArticleText = matches[0].Value;
+            {
+                var articleText  = MatchHelper.SelectResultValue(matches[0]);
+                articleText = ImportArticleText(articleText);
+                article.ArticleText = articleText;
+            }
 
             matches = Regex.Matches(str, ImportConfiguration.Regetauthor, RegexOptions.Singleline);
             if (matches.Count > 0)
-                article.Author = SelectResultValue(matches[0]);
+                article.Author = MatchHelper.SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regetpublicdate, RegexOptions.Singleline);
             if (matches.Count > 0)
-                article.PublicDate = SelectResultValue(matches[0]);
+                article.PublicDate = MatchHelper.SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Categoryempty, RegexOptions.Singleline);
             if (matches.Count > 0)
-                article.CategoryEmpty = SelectResultValue(matches[0]);
+                article.CategoryEmpty = MatchHelper.SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regetcategory, RegexOptions.Singleline);
             if (matches.Count > 0)
-                article.Category = SelectResultValue(matches[0]);
+                article.Category = MatchHelper.SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regetkeywords, RegexOptions.Singleline);
             if (matches.Count > 0)
-                article.KeyWords = SelectResultValue(matches[0]);
+                article.KeyWords = MatchHelper.SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regetregion, RegexOptions.Singleline);
             if (matches.Count > 0)
-                article.Region = SelectResultValue(matches[0]);
+                article.Region = MatchHelper.SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regetsource, RegexOptions.Singleline);
             if (matches.Count > 0)
-                article.Source = SelectResultValue(matches[0]);
+                article.Source = MatchHelper.SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regetsourcenumber, RegexOptions.Singleline);
             if (matches.Count > 0)
-                article.SourceNumber = SelectResultValue(matches[0]);
+                article.SourceNumber = MatchHelper.SelectResultValue(matches[0]);
 
             matches = Regex.Matches(str, ImportConfiguration.Regettitle, RegexOptions.Singleline);
             if (matches.Count > 0)
-                article.Title = SelectResultValue(matches[0]);
+                article.Title = MatchHelper.SelectResultValue(matches[0]);
 
             ProcessImages(str, article);
 
             return article;
         }
 
-        private void ProcessImages(string str, Article article)
+        private string ImportArticleText(string str)
         {
-            var matches = Regex.Matches(str, "<img.+?src=[\"'](.+?)[\"'].*?>", RegexOptions.IgnoreCase);
-            var images = new List<string>();
-            string image;
-
-            for (int i = 0; i < matches.Count; i ++)
+            int indexBegin = str.IndexOf(ArticleTextBegin);
+            if (indexBegin != -1)
             {
-                image = SelectResultValue(matches[i]);
-                if (image != null)
-                {
-                    images.Add(image);
-                }
+                return str.Substring(indexBegin);
             }
-
-            article.Images = images;
+            else
+            {
+                return str;
+            }
         }
 
-
-        private string SelectResultValue(Match match)
+        private void ProcessImages(string str, Article article)
         {
-            if (match.Groups.Count > 1)
-            {
-                string result;
-                for (int i = match.Groups.Count; i > 0; i--)
-                { 
-                    result = match.Groups[i].Value;
-                    if (!string.IsNullOrEmpty(result))
-                    {
-                        return result;
-                    }
-                }
-            }
-
-            return null;
+            var matches = Regex.Matches(str, ImageRegex, RegexOptions.IgnoreCase);
+            var images = new List<string>();
+            MatchHelper.ProcessImages(matches, images);
+            article.Images = images;
         }
 
         private string CreateTemporaryFolder()
