@@ -121,7 +121,7 @@
         </WrapPanel>
 
         <Grid Height="394" Width="1407" >
-            <DataGrid Name="_workspace" AutoGenerateColumns="False" >
+            <DataGrid Name="_articles" AutoGenerateColumns="False" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Заголовок"  />
                     <DataGridTextColumn Header="Источник"  />
