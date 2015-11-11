@@ -18,17 +18,19 @@
             <StackPanel Orientation="Horizontal">
                 <Label Style="{StaticResource processLabel}">Правило импорта</Label>
                 <Separator Style="{StaticResource hrzSeparator}" />
-                <ComboBox Style="{StaticResource processCmbbx}">
+                <ComboBox Style="{StaticResource processCmbbx}" x:Name="_importCmbbx">
                 </ComboBox>
                 <Separator Style="{StaticResource hrzSeparator}" />
-                <Button Style="{StaticResource processBtn}">Импорировать файлы...</Button>
+                <Button Style="{StaticResource processBtn}" Click="OnImportClick">Импорировать файлы...</Button>
             </StackPanel>
 
             <Separator Style="{StaticResource vrtclSeparator}"/>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="232*"/>
+                    <ColumnDefinition Width="131*"/>
+                    <ColumnDefinition Width="28*"/>
+                    <ColumnDefinition Width="79*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
@@ -40,10 +42,10 @@
                     <Label Grid.Row="0" Content="Подсчет количества значений по полю" HorizontalAlignment="Right" Margin="0,0,5,0"/>
                     <Button Grid.Row="1" Content="Вверх" Style="{StaticResource arrowBtn}"/>
                     <Button Grid.Row="2" Content="Вниз"  Style="{StaticResource arrowBtn}"/>
-                    
+
                 </Grid>
-                
-                <ListBox Grid.Column="1" FontSize="10" Height="75">
+
+                <ListBox Grid.Column="1" FontSize="10" Height="75" Grid.ColumnSpan="3">
                     <ListBoxItem Style="{StaticResource listboxItem}">
                         <StackPanel Orientation="Horizontal">
                             <CheckBox VerticalAlignment="Center"/>
@@ -66,7 +68,7 @@
                         <StackPanel Orientation="Horizontal">
                             <CheckBox VerticalAlignment="Center"/>
                             <Label>Дата публикации</Label>
-                        </StackPanel>                        
+                        </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Style="{StaticResource listboxItem}">
                         <StackPanel Orientation="Horizontal">
@@ -78,8 +80,8 @@
                         <StackPanel Orientation="Horizontal">
                             <CheckBox VerticalAlignment="Center"/>
                             <Label>Заголовок</Label>
-                        </StackPanel>                                
-                </ListBoxItem>                    
+                        </StackPanel>
+                    </ListBoxItem>
 
                 </ListBox>
 
@@ -89,19 +91,19 @@
             <StackPanel Orientation="Horizontal">
                 <Label Style="{StaticResource processLabel}">Правило экспорта</Label>
                 <Separator Style="{StaticResource hrzSeparator}" />
-                <ComboBox Style="{StaticResource processCmbbx}">
+                <ComboBox Style="{StaticResource processCmbbx}" x:Name="_exportCmbbx">
                 </ComboBox>
                 <Separator Style="{StaticResource hrzSeparator}" />
-                <Button Style="{StaticResource processBtn}">Экспортировать файлы...</Button>
+                <Button Style="{StaticResource processBtn}" Click="OnExportClick">Экспортировать файлы...</Button>
             </StackPanel>
-            
-            
+
+
             <StackPanel Orientation="Horizontal">
                 <CheckBox IsChecked="True" VerticalAlignment="Center"/>
                 <Label Content="Очищать список после экспорта"/>
             </StackPanel>
         </WrapPanel>
-        
+
         <Separator  Width="1407"/>
 
         <WrapPanel Height="29" Width="1407" >

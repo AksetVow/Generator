@@ -2,6 +2,7 @@
 using Core.Export;
 using Core.Import;
 using Core.Parser;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,9 +46,75 @@ namespace Generator
             _workspace = new Workspace();
             _importer = new Importer();
             _exporter = new Exporter();
+
+            InitializeImportMenu();
+            InitializeExportMenu();
         }
 
+        private void OnImportClick(object sender, RoutedEventArgs e)
+        {
+            if (CurrentImportConfiguration != null)
+            { 
+            
+            
+            }
+        }
 
+        private void OnExportClick(object sender, RoutedEventArgs e)
+        {
+            if (CurrentTemplate != null)
+            { 
+            
+            }
+        }
 
+        private void InitializeImportMenu()
+        {
+            ComboBoxItem importItem;
+
+            foreach (var configuration in _importConfigurations)
+            {
+                importItem = new ComboBoxItem();
+                importItem.Content = configuration.Name;
+                importItem.Tag = configuration;
+                _importCmbbx.Items.Add(importItem);
+            }
+        }
+
+        private void InitializeExportMenu()
+        {
+            ComboBoxItem exportItem;
+
+            foreach (var template in _templates)
+            {
+                exportItem = new ComboBoxItem();
+                exportItem.Content = template.Name;
+                exportItem.Tag = template;
+                _exportCmbbx.Items.Add(exportItem);
+            }
+        }
+
+        private ImportConfiguration CurrentImportConfiguration
+        {
+            get 
+            {
+                if (_importCmbbx.SelectedItem == null)
+                    return null;
+                else
+                    return (_importCmbbx.SelectedItem as ComboBoxItem).Tag as ImportConfiguration;
+            }
+        }
+
+        private Template CurrentTemplate
+        {
+            get 
+            {
+                if (_exportCmbbx.SelectedItem == null)
+                    return null;
+                else
+                    return (_exportCmbbx.SelectedItem as ComboBoxItem).Tag as Template;
+            }
+        
+        }
     }
 }
