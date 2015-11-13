@@ -18,7 +18,7 @@
             <StackPanel Orientation="Horizontal">
                 <Label Style="{StaticResource processLabel}">Правило импорта</Label>
                 <Separator Style="{StaticResource hrzSeparator}" />
-                <ComboBox Style="{StaticResource processCmbbx}" x:Name="_importCmbbx">
+                <ComboBox Style="{StaticResource processCmbbx}" x:Name="_importCmbbx" SelectionChanged="OnImportCmbbxSelected">
                 </ComboBox>
                 <Separator Style="{StaticResource hrzSeparator}" />
                 <Button Style="{StaticResource processBtn}" Click="OnImportClick">Импорировать файлы...</Button>
@@ -91,7 +91,7 @@
             <StackPanel Orientation="Horizontal">
                 <Label Style="{StaticResource processLabel}">Правило экспорта</Label>
                 <Separator Style="{StaticResource hrzSeparator}" />
-                <ComboBox Style="{StaticResource processCmbbx}" x:Name="_exportCmbbx">
+                <ComboBox Style="{StaticResource processCmbbx}" x:Name="_exportCmbbx" SelectionChanged="OnExportCmbbxSelected">
                 </ComboBox>
                 <Separator Style="{StaticResource hrzSeparator}" />
                 <Button Style="{StaticResource processBtn}" Click="OnExportClick">Экспортировать файлы...</Button>
@@ -123,21 +123,21 @@
         </WrapPanel>
 
         <Grid Height="394" Width="1407" >
-            <DataGrid Name="_articles" AutoGenerateColumns="False" >
+            <DataGrid x:Name="_articles" AutoGenerateColumns="False" ItemsSource="{Binding _workspace.Articles}" >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Заголовок"  />
-                    <DataGridTextColumn Header="Источник"  />
-                    <DataGridTextColumn Header="Дата публикации"  />
-                    <DataGridTextColumn Header="Номер источника"  />
-                    <DataGridTextColumn Header="Автор"  />
-                    <DataGridTextColumn Header="Картинок"  />
-                    <DataGridTextColumn Header="Имя файла"  />
-                    <DataGridTextColumn Header="Категория источника"  />
-                    <DataGridTextColumn Header="ID"  />
-                    <DataGridTextColumn Header="ID главной"  />
-                    <DataGridTextColumn Header="Оценка"  />
-                    <DataGridTextColumn Header="Тематическая категория"  />
-                    <DataGridTextColumn Header="Регион"  />
+                    <DataGridTextColumn Header="Заголовок" Binding="{Binding Title}"/>
+                    <DataGridTextColumn Header="Источник" Binding="{Binding Source}" />
+                    <DataGridTextColumn Header="Дата публикации"  Binding="{Binding PublicDate}"/>
+                    <DataGridTextColumn Header="Номер источника" Binding="{Binding SourceNumber}" />
+                    <DataGridTextColumn Header="Автор" Binding="{Binding Author}" />
+                    <DataGridTextColumn Header="Картинок" Binding="{Binding Images.Count}" />
+                    <DataGridTextColumn Header="Имя файла" Binding="{Binding Filepath}"/>
+                    <DataGridTextColumn Header="Категория источника"  Binding="{Binding Category}"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
+                    <DataGridTextColumn Header="ID главной"  Binding="{Binding IdMain}"/>
+                    <DataGridTextColumn Header="Оценка" Binding="{Binding Mark}" />
+                    <DataGridTextColumn Header="Тематическая категория" Binding="{Binding SubjectCategory}" />
+                    <DataGridTextColumn Header="Регион"  Binding="{Binding Region}"/>
                 </DataGrid.Columns>
             </DataGrid>
 

@@ -49,24 +49,54 @@ namespace Generator
 
             InitializeImportMenu();
             InitializeExportMenu();
+
+            _articles.ItemsSource = _workspace.Articles;
         }
 
         private void OnImportClick(object sender, RoutedEventArgs e)
         {
             if (CurrentImportConfiguration != null)
-            { 
-            
-            
+            {
+                OpenFileDialog openFile = new OpenFileDialog();
+                openFile.Filter = "Files|" + CurrentImportConfiguration.FileMask;
+                openFile.ShowDialog();
+
+                var articles = _importer.Import(openFile.FileNames);
+                _workspace.Add(articles);
+                _articles.Items.Refresh();
             }
         }
 
         private void OnExportClick(object sender, RoutedEventArgs e)
         {
             if (CurrentTemplate != null)
-            { 
-            
+            {
+                SaveFileDialog saveFile = new SaveFileDialog();
+                saveFile.Filter = "File|*.htm";
+                saveFile.ShowDialog();
+
+                var reportFile = saveFile.FileName;
+                _exporter.Export(_workspace, reportFile, new UserRequestData());
+
             }
         }
+
+        private void OnImportCmbbxSelected(object sender, SelectionChangedEventArgs e)
+        {
+            if (CurrentImportConfiguration != null)
+            {
+                _importer.ImportConfiguration = CurrentImportConfiguration;
+            }
+        }
+
+        private void OnExportCmbbxSelected(object sender, SelectionChangedEventArgs e)
+        {
+            if (CurrentTemplate != null)
+            {
+                _exporter.Template = CurrentTemplate;
+            }
+        }
+
 
         private void InitializeImportMenu()
         {
@@ -116,5 +146,6 @@ namespace Generator
             }
         
         }
+
     }
 }

@@ -20,9 +20,9 @@ namespace Core
 
         public IList<string> Images { get; set; }
 
-        //is it needed ?
-        //public int Id { get; set; }
-        //public int IdMain { get; set; }
+        public string Mark { get; set; }
+        public int Id { get; set; }
+        public int IdMain { get; set; }
 
     }
 }
