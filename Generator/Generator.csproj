@@ -173,24 +173,24 @@
     <Content Include="outtpls\countgrouptpl.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="outtpls\footer_center.jpg">
+    <Content Include="outtpls\footer_center.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="outtpls\footer_left.jpg">
+    </Content>
+    <Content Include="outtpls\footer_left.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="outtpls\footer_word.jpg">
+    </Content>
+    <Content Include="outtpls\footer_word.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="outtpls\footer_word_13.jpg">
+    </Content>
+    <Content Include="outtpls\footer_word_13.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="outtpls\footer_word_w.jpg">
+    </Content>
+    <Content Include="outtpls\footer_word_w.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="outtpls\footer_word_w_13.jpg">
+    </Content>
+    <Content Include="outtpls\footer_word_w_13.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <Content Include="outtpls\for_ms_word_2012\article.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -458,24 +458,24 @@
     <Content Include="outtpls\grup_html_kol_zn\tocheadertpl.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="outtpls\header_center.jpg">
+    <Content Include="outtpls\header_center.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="outtpls\header_left.jpg">
+    </Content>
+    <Content Include="outtpls\header_left.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="outtpls\header_left_13.jpg">
+    </Content>
+    <Content Include="outtpls\header_left_13.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="outtpls\header_right.jpg">
+    </Content>
+    <Content Include="outtpls\header_right.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="outtpls\header_word.jpg">
+    </Content>
+    <Content Include="outtpls\header_word.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="outtpls\header_word_13.jpg">
+    </Content>
+    <Content Include="outtpls\header_word_13.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <Content Include="outtpls\html_grupp_url\article.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -339,7 +339,7 @@ namespace Core.Export
         {
             get
             {
-                return Path.GetFileNameWithoutExtension(_resultPath);
+                return Path.Combine(ResultDirectory, Path.GetFileNameWithoutExtension(_resultPath));
             }
         }
 
