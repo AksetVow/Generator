@@ -185,7 +185,7 @@ namespace Core.Import
 
             matches = Regex.Matches(str, ImportConfiguration.Regettitle, RegexOptions.Singleline);
             if (matches.Count > 0)
-                article.Title = MatchHelper.SelectResultValue(matches[0]);
+                article.Title = MatchHelper.SelectResultValue(matches[0]).Trim();
 
             ProcessImages(str, article);
 
