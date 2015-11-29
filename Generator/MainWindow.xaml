@@ -21,7 +21,7 @@
                 <ComboBox Style="{StaticResource processCmbbx}" x:Name="_importCmbbx" SelectionChanged="OnImportCmbbxSelected">
                 </ComboBox>
                 <Separator Style="{StaticResource hrzSeparator}" />
-                <Button Style="{StaticResource processBtn}" Click="OnImportClick">Импорировать файлы...</Button>
+                <Button Style="{StaticResource processBtn}" Command="{Binding ImportCommand}">Импорировать файлы...</Button>
             </StackPanel>
 
             <Separator Style="{StaticResource vrtclSeparator}"/>
@@ -94,7 +94,7 @@
                 <ComboBox Style="{StaticResource processCmbbx}" x:Name="_exportCmbbx" SelectionChanged="OnExportCmbbxSelected">
                 </ComboBox>
                 <Separator Style="{StaticResource hrzSeparator}" />
-                <Button Style="{StaticResource processBtn}" Click="OnExportClick">Экспортировать файлы...</Button>
+                <Button Style="{StaticResource processBtn}" Command="{Binding ExportCommand}">Экспортировать файлы...</Button>
             </StackPanel>
 
 

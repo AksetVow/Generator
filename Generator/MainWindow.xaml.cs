@@ -2,6 +2,7 @@
 using Core.Export;
 using Core.Import;
 using Core.Parser;
+using Generator.Command;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace Generator
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
 
             Initialize();
         }
@@ -51,34 +53,6 @@ namespace Generator
             InitializeExportMenu();
 
             _articles.ItemsSource = _workspace.Articles;
-        }
-
-        private void OnImportClick(object sender, RoutedEventArgs e)
-        {
-            if (CurrentImportConfiguration != null)
-            {
-                OpenFileDialog openFile = new OpenFileDialog();
-                openFile.Filter = "Files|" + CurrentImportConfiguration.FileMask;
-                openFile.ShowDialog();
-
-                var articles = _importer.Import(openFile.FileNames);
-                _workspace.Add(articles);
-                _articles.Items.Refresh();
-            }
-        }
-
-        private void OnExportClick(object sender, RoutedEventArgs e)
-        {
-            if (CurrentTemplate != null)
-            {
-                SaveFileDialog saveFile = new SaveFileDialog();
-                saveFile.Filter = "File|*.htm";
-                saveFile.ShowDialog();
-
-                var reportFile = saveFile.FileName;
-                _exporter.Export(_workspace, reportFile, new UserRequestData());
-
-            }
         }
 
         private void OnImportCmbbxSelected(object sender, SelectionChangedEventArgs e)
@@ -109,6 +83,53 @@ namespace Generator
                 importItem.Tag = configuration;
                 _importCmbbx.Items.Add(importItem);
             }
+        }
+
+        public ICommand ImportCommand 
+        {
+            get
+            {
+                return new BaseCommand(Import, CanImport);
+            }
+        }
+
+        public ICommand ExportCommand
+        {
+            get
+            {
+                return new BaseCommand(Export, CanExport);
+            }
+        }
+
+        private bool CanImport()
+        {
+            return CurrentImportConfiguration != null;
+        }
+
+        private void Import()
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "Files|" + CurrentImportConfiguration.FileMask;
+            openFile.ShowDialog();
+
+            var articles = _importer.Import(openFile.FileNames);
+            _workspace.Add(articles);
+            _articles.Items.Refresh();        
+        }
+
+        private bool CanExport()
+        {
+            return CurrentTemplate != null && _workspace.Articles.Count > 0;
+        }
+
+        private void Export()
+        {
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.Filter = "File|*.htm";
+            saveFile.ShowDialog();
+
+            var reportFile = saveFile.FileName;
+            _exporter.Export(_workspace, reportFile, new UserRequestData());
         }
 
         private void InitializeExportMenu()
