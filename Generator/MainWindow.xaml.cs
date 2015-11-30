@@ -110,7 +110,9 @@ namespace Generator
         {
             OpenFileDialog openFile = new OpenFileDialog();
             openFile.Filter = "Files|" + CurrentImportConfiguration.FileMask;
+            openFile.Multiselect = true;
             openFile.ShowDialog();
+            
 
             var articles = _importer.Import(openFile.FileNames);
             _workspace.Add(articles);
