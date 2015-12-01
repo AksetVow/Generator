@@ -1,5 +1,6 @@
 ﻿using Core.Command.Commands;
 using System;
+using System.Collections.Generic;
 
 namespace Core.Command
 {
@@ -7,9 +8,9 @@ namespace Core.Command
     {
         private ICommandExecutor _commandExecutor = new CommandExecutor();
 
-        public void Delete(Workspace workspace, Article article)
+        public void Delete(Workspace workspace, IList<Article> articles)
         {
-            var deleteCommand = new DeleteCommand(workspace, article);
+            var deleteCommand = new DeleteArticlesCommand(workspace, articles);
             _commandExecutor.ExecuteCommand(deleteCommand);
         }
 
@@ -52,6 +53,11 @@ namespace Core.Command
         public bool CanRedo()
         {
             return _commandExecutor.CanRedo();
+        }
+
+        public void ExecuteCommand(ICommand command)
+        {
+            _commandExecutor.ExecuteCommand(command);
         }
     }
 }

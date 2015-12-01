@@ -9,7 +9,6 @@ namespace Core.Command
         private Stack<ICommand> _doneCommands = new Stack<ICommand>();
         private Stack<ICommand> _undoneCommands = new Stack<ICommand>();
 
-
         public void ExecuteCommand(ICommand command)
         {
             command.Do();

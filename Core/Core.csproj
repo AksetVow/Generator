@@ -46,13 +46,11 @@
   <ItemGroup>
     <Compile Include="Article.cs" />
     <Compile Include="Command\CommandManager.cs" />
-    <Compile Include="Command\Commands\AddArticleCommand.cs" />
-    <Compile Include="Command\Commands\AddArticlesCommand.cs" />
+    <Compile Include="Command\Commands\DeleteArticlesCommand.cs" />
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Command\CommandExecutor.cs" />
     <Compile Include="Command\Commands\DeleteAllCommand.cs" />
     <Compile Include="Command\Commands\DeleteAllImagesCommand.cs" />
-    <Compile Include="Command\Commands\DeleteCommand.cs" />
     <Compile Include="Command\Commands\DeleteImageCommand.cs" />
     <Compile Include="Command\ICommandManager.cs" />
     <Compile Include="Command\ICommandExecutor.cs" />

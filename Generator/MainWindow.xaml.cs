@@ -54,7 +54,26 @@ namespace Generator
             InitializeExportMenu();
 
             _articles.ItemsSource = _workspace.Articles;
+            _articles.PreviewKeyDown += PreviewKeyDownHandler;
+
         }
+
+        private void PreviewKeyDownHandler(object sender, KeyEventArgs e) 
+        {
+            var grid = sender as DataGrid;
+            if (grid != null)
+            {
+                if (Key.Delete == e.Key)
+                {
+                    if (CanDeleteArticle())
+                    {
+                        DeleteArticles();
+                        e.Handled = true;
+                    }
+                }
+            }
+        }
+
 
         private void OnImportCmbbxSelected(object sender, SelectionChangedEventArgs e)
         {
@@ -145,7 +164,7 @@ namespace Generator
         {
             get
             {
-                return new BaseCommand(DeleteArticle, CanDeleteArticle);
+                return new BaseCommand(DeleteArticles, CanDeleteArticle);
             }
         }
 
@@ -227,9 +246,11 @@ namespace Generator
             _exporter.Export(_workspace, reportFile, new UserRequestData());
         }
 
-        private void DeleteArticle()
+        private void DeleteArticles()
         {
-            _commandManager.Delete(_workspace, _articles.SelectedItem as Article);
+            var articles = _articles.SelectedItems.OfType<Article>().ToList();
+
+            _commandManager.Delete(_workspace, articles);
             _articles.Items.Refresh();
         }
 
