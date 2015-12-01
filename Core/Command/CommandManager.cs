@@ -1,46 +1,57 @@
-﻿using System.Collections.Generic;
+﻿using Core.Command.Commands;
+using System;
 
 namespace Core.Command
 {
-    public class CommandManager
+    public class CommandManager : ICommandManager
     {
-        //TODO implement cleaning strategy for commands
+        private ICommandExecutor _commandExecutor = new CommandExecutor();
 
-        private Stack<ICommand> _doneCommands = new Stack<ICommand>();
-        private Stack<ICommand> _undoneCommands = new Stack<ICommand>();
-
-
-        public void ExecuteCommand(ICommand command)
+        public void Delete(Workspace workspace, Article article)
         {
-            command.Do();
-            _doneCommands.Push(command);
+            var deleteCommand = new DeleteCommand(workspace, article);
+            _commandExecutor.ExecuteCommand(deleteCommand);
+        }
+
+        public void DeleteAll(Workspace workspace)
+        {
+            var deleteAllCommand = new DeleteAllCommand(workspace);
+            _commandExecutor.ExecuteCommand(deleteAllCommand);
+        }
+
+        public void DeleteImage(Article article)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAllImages(Workspace workspace)
+        {
+            throw new NotImplementedException();
         }
 
         public void Undo()
         {
-            if (_doneCommands.Count > 0)
-            {
-                var command = _doneCommands.Pop();
-                command.Undo();
-                _undoneCommands.Push(command);
-            }
+            _commandExecutor.Undo();
         }
 
         public void Redo()
         {
-            if (_undoneCommands.Count > 0)
-            {
-                var command = _undoneCommands.Pop();
-                command.Redo();
-                _doneCommands.Push(command);
-            }
+            _commandExecutor.Redo();
         }
 
         public void Clean()
         {
-            _doneCommands.Clear();
-            _undoneCommands.Clear();
+            _commandExecutor.Clean();
         }
 
+        public bool CanUndo()
+        {
+            return _commandExecutor.CanUndo();
+        }
+
+        public bool CanRedo()
+        {
+            return _commandExecutor.CanRedo();
+        }
     }
 }

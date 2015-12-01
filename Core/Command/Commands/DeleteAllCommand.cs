@@ -1,21 +1,34 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+
 namespace Core.Command.Commands
 {
     public class DeleteAllCommand : ICommand
     {
+        private Workspace _workspace;
+        private IList<Article> _deleteArticles;
+
+        public DeleteAllCommand(Workspace workspace)
+        {
+            if (workspace == null)
+                throw new ArgumentNullException("workspace couldn't be null");
+
+            _workspace = workspace;
+        }
+
         public void Do()
         {
-            throw new System.NotImplementedException();
+            _deleteArticles = _workspace.RemoveAll();
         }
 
         public void Undo()
         {
-            throw new System.NotImplementedException();
+            _workspace.Add(_deleteArticles);
         }
 
         public void Redo()
         {
-            throw new System.NotImplementedException();
+            Do();
         }
     }
 }

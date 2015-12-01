@@ -31,6 +31,7 @@ namespace Generator
         private IList<ImportConfiguration> _importConfigurations;
         private Importer _importer;
         private Exporter _exporter;
+        private Core.Command.ICommandManager _commandManager = new Core.Command.CommandManager();
 
         public MainWindow()
         {
@@ -85,7 +86,46 @@ namespace Generator
             }
         }
 
-        public ICommand ImportCommand 
+        private void InitializeExportMenu()
+        {
+            ComboBoxItem exportItem;
+
+            foreach (var template in _templates)
+            {
+                exportItem = new ComboBoxItem();
+                exportItem.Content = template.Name;
+                exportItem.Tag = template;
+                _exportCmbbx.Items.Add(exportItem);
+            }
+        }
+
+        private ImportConfiguration CurrentImportConfiguration
+        {
+            get
+            {
+                if (_importCmbbx.SelectedItem == null)
+                    return null;
+                else
+                    return (_importCmbbx.SelectedItem as ComboBoxItem).Tag as ImportConfiguration;
+            }
+        }
+
+        private Template CurrentTemplate
+        {
+            get
+            {
+                if (_exportCmbbx.SelectedItem == null)
+                    return null;
+                else
+                    return (_exportCmbbx.SelectedItem as ComboBoxItem).Tag as Template;
+            }
+
+        }
+
+
+        #region Commands
+
+        public ICommand ImportCommand
         {
             get
             {
@@ -101,6 +141,59 @@ namespace Generator
             }
         }
 
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                return new BaseCommand(DeleteArticle, CanDeleteArticle);
+            }
+        }
+
+        public ICommand DeleteAllCommand
+        {
+            get
+            {
+                return new BaseCommand(DeleteAllArticles, CanDeleteAllArticles);
+            }
+        }
+
+        public ICommand DeleteImageCommand
+        {
+            get
+            {
+                return new BaseCommand(DeleteImage, CanDeleteImage);
+            }
+        }
+
+        public ICommand DeleteAllImagesCommand
+        {
+            get
+            {
+                return new BaseCommand(DeleteAllImages, CanDeleteAllImages);
+            }
+        }
+
+        public ICommand UndoCommand
+        {
+            get
+            {
+                return new BaseCommand(Undo, CanUndo);
+            }
+        }
+
+        public ICommand RedoCommand
+        {
+            get
+            {
+                return new BaseCommand(Redo, CandRedo);
+            }
+        }
+
+        #endregion
+
+
+        #region CommandHandlers
+
         private bool CanImport()
         {
             return CurrentImportConfiguration != null;
@@ -112,11 +205,11 @@ namespace Generator
             openFile.Filter = "Files|" + CurrentImportConfiguration.FileMask;
             openFile.Multiselect = true;
             openFile.ShowDialog();
-            
+
 
             var articles = _importer.Import(openFile.FileNames);
             _workspace.Add(articles);
-            _articles.Items.Refresh();        
+            _articles.Items.Refresh();
         }
 
         private bool CanExport()
@@ -134,41 +227,72 @@ namespace Generator
             _exporter.Export(_workspace, reportFile, new UserRequestData());
         }
 
-        private void InitializeExportMenu()
+        private void DeleteArticle()
         {
-            ComboBoxItem exportItem;
-
-            foreach (var template in _templates)
-            {
-                exportItem = new ComboBoxItem();
-                exportItem.Content = template.Name;
-                exportItem.Tag = template;
-                _exportCmbbx.Items.Add(exportItem);
-            }
+            _commandManager.Delete(_workspace, _articles.SelectedItem as Article);
+            _articles.Items.Refresh();
         }
 
-        private ImportConfiguration CurrentImportConfiguration
+        private bool CanDeleteArticle()
         {
-            get 
-            {
-                if (_importCmbbx.SelectedItem == null)
-                    return null;
-                else
-                    return (_importCmbbx.SelectedItem as ComboBoxItem).Tag as ImportConfiguration;
-            }
+            return _articles.SelectedItem != null;
         }
 
-        private Template CurrentTemplate
+        private void DeleteAllArticles()
         {
-            get 
-            {
-                if (_exportCmbbx.SelectedItem == null)
-                    return null;
-                else
-                    return (_exportCmbbx.SelectedItem as ComboBoxItem).Tag as Template;
-            }
+            _commandManager.DeleteAll(_workspace);
+            _articles.Items.Refresh();
+        }
+
+        private bool CanDeleteAllArticles()
+        {
+            return _workspace.Articles.Count > 0;
+        }
+
+        private void DeleteImage()
+        { 
         
         }
+
+        private bool CanDeleteImage()
+        {
+            return false;
+        }
+
+        private void DeleteAllImages()
+        { 
+        
+        }
+
+        private bool CanDeleteAllImages()
+        {
+            return false;
+        }
+
+        private bool CanUndo()
+        {
+            return _commandManager.CanUndo();
+        }
+
+        private void Undo()
+        {
+            _commandManager.Undo();
+            _articles.Items.Refresh();
+        }
+
+        private void Redo()
+        {
+            _commandManager.Redo();
+            _articles.Items.Refresh();
+        }
+
+        private bool CandRedo()
+        {
+            return _commandManager.CanRedo();
+        }
+
+
+        #endregion
 
     }
 }
