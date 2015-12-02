@@ -20,14 +20,16 @@ namespace Core.Command
             _commandExecutor.ExecuteCommand(deleteAllCommand);
         }
 
-        public void DeleteImage(Article article)
+        public void DeleteImages(IList<Article> articles)
         {
-            throw new NotImplementedException();
+            var deleteImagesCommand = new DeleteImagesCommand(articles);
+            _commandExecutor.ExecuteCommand(deleteImagesCommand);
         }
 
-        public void DeleteAllImages(Workspace workspace)
+        public void Import(Import.Importer importer, Workspace workspace, string[] filenames)
         {
-            throw new NotImplementedException();
+            var importCommand = new ImportCommand(importer, workspace, filenames);
+            _commandExecutor.ExecuteCommand(importCommand);
         }
 
         public void Undo()
@@ -59,5 +61,6 @@ namespace Core.Command
         {
             _commandExecutor.ExecuteCommand(command);
         }
+
     }
 }

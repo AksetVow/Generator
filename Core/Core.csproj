@@ -47,11 +47,11 @@
     <Compile Include="Article.cs" />
     <Compile Include="Command\CommandManager.cs" />
     <Compile Include="Command\Commands\DeleteArticlesCommand.cs" />
+    <Compile Include="Command\Commands\ImportCommand.cs" />
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Command\CommandExecutor.cs" />
     <Compile Include="Command\Commands\DeleteAllCommand.cs" />
-    <Compile Include="Command\Commands\DeleteAllImagesCommand.cs" />
-    <Compile Include="Command\Commands\DeleteImageCommand.cs" />
+    <Compile Include="Command\Commands\DeleteImagesCommand.cs" />
     <Compile Include="Command\ICommandManager.cs" />
     <Compile Include="Command\ICommandExecutor.cs" />
     <Compile Include="Export\ExportCounterSettings.cs" />

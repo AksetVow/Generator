@@ -1,8 +1,9 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+
 namespace Core
 {
-    public class Article
+    public class Article 
     {
         public string ArticleText { get; set; }
         public string Author { get; set; }
@@ -24,5 +25,32 @@ namespace Core
         public int Id { get; set; }
         public int IdMain { get; set; }
 
+
+        public Article Copy()
+        {
+            Article copy = new Article();
+
+            copy.ArticleText = ArticleText;
+            copy.Author = Author;
+            copy.Category = Category;
+            copy.CategoryEmpty = CategoryEmpty;
+            copy.Filepath = Filepath;
+            copy.Id = Id;
+            copy.IdMain = IdMain;
+            copy.KeyWords = KeyWords;
+            copy.Mark = Mark;
+            copy.PublicDate = PublicDate;
+            copy.Region = Region;
+            copy.Source = Source;
+            copy.SourceNumber = SourceNumber;
+            copy.SubjectCategory = SubjectCategory;
+            copy.Title = Title;
+
+            copy.Images = (Images as List<string>).ToList();
+
+
+
+            return copy;
+        }
     }
 }

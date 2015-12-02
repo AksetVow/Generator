@@ -59,6 +59,8 @@
     <Compile Include="Tests\ExportParserTest.cs" />
     <Compile Include="Tests\ImporterTest.cs" />
     <Compile Include="Tests\ExporterTest.cs" />
+    <Compile Include="Tests\ArticleTest.cs" />
+    <Compile Include="Tests\DeleteImagesCommandTest.cs" />
     <Compile Include="Tests\WorkspaceTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +94,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="articletext.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="articlewithoutimages.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="outtpls\alsoin.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

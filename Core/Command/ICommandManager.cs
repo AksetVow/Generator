@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Core.Import;
+using System.Collections.Generic;
 
 namespace Core.Command
 {
@@ -8,9 +9,9 @@ namespace Core.Command
 
         void DeleteAll(Workspace workspace);
 
-        void DeleteImage(Article article);
+        void DeleteImages(IList<Article> articles);
 
-        void DeleteAllImages(Workspace workspace);
+        void Import(Importer importer, Workspace workspace, string[] filenames);
 
     }
 }

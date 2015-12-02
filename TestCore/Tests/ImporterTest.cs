@@ -105,7 +105,7 @@ namespace TestCore.Tests
 
         private void TestUkrGazBankArticle(Article article, bool full = true)
         {
-            Assert.IsTrue(article.Title.Equals("Укргазбанк  виділяє кредит для ПАТ \"Аграрний фонд\" на 300 млн грн. під 25% річних "));
+            Assert.IsTrue(article.Title.Equals("Укргазбанк  виділяє кредит для ПАТ \"Аграрний фонд\" на 300 млн грн. під 25% річних"));
             Assert.IsTrue(article.Category.Equals("Интернет"));
             Assert.IsFalse(string.IsNullOrEmpty(article.Filepath));
 

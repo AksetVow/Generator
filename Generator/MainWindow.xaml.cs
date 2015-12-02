@@ -141,6 +141,15 @@ namespace Generator
 
         }
 
+        private bool ContainsImages(IList<Article> articles)
+        {
+            foreach (var article in articles)
+            {
+                if (article.Images.Count > 0)
+                    return true;
+            }
+            return false;
+        }
 
         #region Commands
 
@@ -224,10 +233,8 @@ namespace Generator
             openFile.Filter = "Files|" + CurrentImportConfiguration.FileMask;
             openFile.Multiselect = true;
             openFile.ShowDialog();
+            _commandManager.Import(_importer, _workspace, openFile.FileNames);
 
-
-            var articles = _importer.Import(openFile.FileNames);
-            _workspace.Add(articles);
             _articles.Items.Refresh();
         }
 
@@ -272,22 +279,28 @@ namespace Generator
 
         private void DeleteImage()
         { 
-        
+            var articles = _articles.SelectedItems.OfType<Article>().ToList();
+
+            _commandManager.DeleteImages(articles);
+            _articles.Items.Refresh();
         }
 
         private bool CanDeleteImage()
         {
-            return false;
+            var articles = _articles.SelectedItems.OfType<Article>().ToList();
+
+            return ContainsImages(articles);
         }
 
         private void DeleteAllImages()
-        { 
-        
+        {
+            _commandManager.DeleteImages(_workspace.Articles);
+            _articles.Items.Refresh();
         }
 
         private bool CanDeleteAllImages()
         {
-            return false;
+            return ContainsImages(_workspace.Articles);
         }
 
         private bool CanUndo()
@@ -312,8 +325,8 @@ namespace Generator
             return _commandManager.CanRedo();
         }
 
-
         #endregion
+
 
     }
 }
