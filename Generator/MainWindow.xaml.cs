@@ -74,6 +74,11 @@ namespace Generator
             }
         }
 
+        void OnDataGridLoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = (e.Row.GetIndex() + 1).ToString();
+        }
+
 
         private void OnImportCmbbxSelected(object sender, SelectionChangedEventArgs e)
         {

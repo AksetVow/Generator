@@ -137,7 +137,7 @@
 
         </WrapPanel>
 
-        <DataGrid Grid.Row="4" x:Name="_articles" AutoGenerateColumns="False" ItemsSource="{Binding _workspace.Articles}" MinHeight="394" MinWidth="1407" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <DataGrid LoadingRow="OnDataGridLoadingRow" Grid.Row="4" x:Name="_articles" AutoGenerateColumns="False" ItemsSource="{Binding _workspace.Articles}" MinHeight="394" MinWidth="1407" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Заголовок" Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="Источник" Binding="{Binding Source}" />
