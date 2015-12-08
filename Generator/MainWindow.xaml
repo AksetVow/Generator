@@ -138,6 +138,31 @@
         </WrapPanel>
 
         <DataGrid LoadingRow="OnDataGridLoadingRow" Grid.Row="4" x:Name="_articles" AutoGenerateColumns="False" ItemsSource="{Binding _workspace.Articles}" MinHeight="394" MinWidth="1407" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить картинки" Command="{Binding DeleteImageCommand}"/>
+                    <MenuItem Header="Удалить картинки из всех" Command="{Binding DeleteAllImagesCommand}"/>
+                    <MenuItem Header="Ключевые слова всех статей" IsEnabled="False"/>
+                    <MenuItem Header="Ключевые неучаствующие в рейтингах" IsEnabled="False"/>
+                    <MenuItem Header="Привязать к статье"/>
+                    <MenuItem Header="Тематическая категория">
+                        <MenuItem Header="Регионы">
+                            <MenuItem Header="Добавить"/>
+                        </MenuItem>
+                        <MenuItem Header="Темы">
+                            <MenuItem Header="Добавить"/>
+                        </MenuItem>
+                        <MenuItem Header="Удалить"/>
+                    </MenuItem>
+
+                    <MenuItem Header="Удалить" Command="{Binding DeleteCommand}"/>
+                    <MenuItem Header="Удалить все" Command="{Binding DeleteAllCommand}"/>
+
+
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Заголовок" Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="Источник" Binding="{Binding Source}" />
