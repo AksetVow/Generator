@@ -165,17 +165,17 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Заголовок" Binding="{Binding Title}"/>
-                <DataGridTextColumn Header="Источник" Binding="{Binding Source}" />
+                <DataGridTextColumn Header="Источник" Binding="{Binding Source}"/>
                 <DataGridTextColumn Header="Дата публикации"  Binding="{Binding PublicDate}"/>
-                <DataGridTextColumn Header="Номер источника" Binding="{Binding SourceNumber}" />
-                <DataGridTextColumn Header="Автор" Binding="{Binding Author}" />
-                <DataGridTextColumn Header="Картинок" Binding="{Binding Images.Count}" />
-                <DataGridTextColumn Header="Имя файла" Binding="{Binding Filepath}"/>
-                <DataGridTextColumn Header="Категория источника"  Binding="{Binding Category}"/>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="ID главной"  Binding="{Binding IdMain}"/>
-                <DataGridTextColumn Header="Оценка" Binding="{Binding Mark}" />
-                <DataGridTextColumn Header="Тематическая категория" Binding="{Binding SubjectCategory}" />
+                <DataGridTextColumn Header="Номер источника" Binding="{Binding SourceNumber}" Width="25" />
+                <DataGridTextColumn Header="Автор" Binding="{Binding Author}" Width="350"/>
+                <DataGridTextColumn Header="Картинок" Binding="{Binding Images.Count}" Width="25" />
+                <DataGridTextColumn Header="Имя файла" Binding="{Binding Filepath}" Width="25"/>
+                <DataGridTextColumn Header="Категория источника"  Binding="{Binding Category}" Width="70"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="25"/>
+                <DataGridTextColumn Header="ID главной"  Binding="{Binding IdMain}" Width="25"/>
+                <DataGridTextColumn Header="Оценка" Binding="{Binding Mark}" Width="25"/>
+                <DataGridTextColumn Header="Тематическая категория" Binding="{Binding SubjectCategory}" Width="70" />
                 <DataGridTextColumn Header="Регион"  Binding="{Binding Region}"/>
             </DataGrid.Columns>
         </DataGrid>
