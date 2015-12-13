@@ -15,5 +15,7 @@ namespace Core.Command
 
         void SetMainId(IList<Article> articles, int id);
 
+        void AddCategory(IList<Article> articles, string category);
+
     }
 }

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Article.cs" />
     <Compile Include="Command\CommandManager.cs" />
+    <Compile Include="Command\Commands\AddCategoryCommand.cs" />
     <Compile Include="Command\Commands\DeleteArticlesCommand.cs" />
     <Compile Include="Command\Commands\ImportCommand.cs" />
     <Compile Include="Command\Commands\SetMainArticleCommand.cs" />

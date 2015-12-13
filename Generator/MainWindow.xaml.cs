@@ -59,7 +59,7 @@ namespace Generator
 
         }
 
-        private void PreviewKeyDownHandler(object sender, KeyEventArgs e) 
+        private void PreviewKeyDownHandler(object sender, KeyEventArgs e)
         {
             var grid = sender as DataGrid;
             if (grid != null)
@@ -231,6 +231,14 @@ namespace Generator
             }
         }
 
+        public ICommand AddCategoryCommand
+        {
+            get
+            {
+                return new BaseCommandWithParameter(AddCategory, CanAddCategory);
+            }
+        }
+
         #endregion
 
 
@@ -292,7 +300,7 @@ namespace Generator
         }
 
         private void DeleteImage()
-        { 
+        {
             var articles = _articles.SelectedItems.OfType<Article>().ToList();
 
             _commandManager.DeleteImages(articles);
@@ -356,6 +364,53 @@ namespace Generator
         private bool CanConnectWithMain()
         {
             return _articles.SelectedItem != null;
+        }
+
+        private void AddCategory(object obj)
+        {
+            string category = "";
+            if (obj.Equals("##Region") || obj.Equals("##Themes"))
+            {
+
+                var addCategoryWindow = new AddCategoryWindow();
+                addCategoryWindow.ShowDialog();
+
+                if (!addCategoryWindow.IsCancelled)
+                {
+                    category = addCategoryWindow.Category;
+
+                    MenuItem menuItem = new MenuItem();
+                    menuItem.Command = AddCategoryCommand;
+                    menuItem.CommandParameter = category;
+                    menuItem.Header = category;
+
+                    if (obj.Equals("##Region"))
+                    {
+                        _regionsMenu.Items.Add(menuItem);
+                    }
+                    else
+                    {
+                        _themesMenu.Items.Add(menuItem);
+                    }
+
+                }
+
+            }
+            else
+            {
+                category = obj.ToString();
+            }
+
+            var articles = _articles.SelectedItems.OfType<Article>().ToList();
+            _commandManager.AddCategory(articles, category);
+
+
+            _articles.Items.Refresh();
+        }
+
+        private bool CanAddCategory(object obj)
+        {
+            return true;
         }
 
         #endregion

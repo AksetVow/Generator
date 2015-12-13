@@ -146,11 +146,14 @@
                     <MenuItem Header="Ключевые неучаствующие в рейтингах" IsEnabled="False"/>
                     <MenuItem Header="Привязать к статье" Command="{Binding ConnectWithSourceCommand}"/>
                     <MenuItem Header="Тематическая категория">
-                        <MenuItem Header="Регионы">
-                            <MenuItem Header="Добавить"/>
+                        <MenuItem x:Name="_regionsMenu" Header="Регионы">
+                            <MenuItem Header="Добавить" Command="{Binding AddCategoryCommand}" CommandParameter="##Region" />
+                            <Separator />
+                            
                         </MenuItem>
-                        <MenuItem Header="Темы">
-                            <MenuItem Header="Добавить"/>
+                        <MenuItem x:Name="_themesMenu" Header="Темы">
+                            <MenuItem Header="Добавить" Command="{Binding AddCategoryCommand}" CommandParameter="##Themes"/>
+                            <Separator />
                         </MenuItem>
                         <MenuItem Header="Удалить"/>
                     </MenuItem>

@@ -1,0 +1,11 @@
+﻿<Window x:Class="Generator.Views.AddCategoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Тематическая категория" Height="130.969" Width="278.732" ResizeMode="NoResize">
+    <Grid>
+        <Label Content="Введите название тематической категории" Margin="5,0,20,69" />
+        <TextBox x:Name="_idTextBox" Margin="5,27,20,44"></TextBox>
+        <Button Content="OK" Margin="5,60,183,5" Click="OnOkClick"/>
+        <Button Content="Cancel" Margin="167,60,10,5" Click="OnCancelClick"/>
+    </Grid>
+</Window>

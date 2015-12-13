@@ -67,5 +67,11 @@ namespace Core.Command
             var setMainArticleCommand = new SetMainArticleCommand(id, articles);
             _commandExecutor.ExecuteCommand(setMainArticleCommand);
         }
+
+        public void AddCategory(IList<Article> articles, string category)
+        {
+            var addCategoryCommand = new AddCategoryCommand(category, articles);
+            _commandExecutor.ExecuteCommand(addCategoryCommand);
+        }
     }
 }
