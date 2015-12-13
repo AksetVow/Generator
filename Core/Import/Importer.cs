@@ -20,6 +20,7 @@ namespace Core.Import
 
         private string _baseDestination;
         private string _currentDestination;
+        private static int _counter = 1;
 
         public ImportConfiguration ImportConfiguration { get; set; }
 
@@ -189,6 +190,8 @@ namespace Core.Import
                 var titleText = MatchHelper.SelectResultValue(matches[0]);
                 article.Title = HtmlTextHelper.CorrectTextFromHtml(titleText);
             }
+
+            article.Id = _counter++;
 
             ProcessImages(str, article);
 

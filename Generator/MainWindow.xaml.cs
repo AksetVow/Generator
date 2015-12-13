@@ -3,6 +3,7 @@ using Core.Export;
 using Core.Import;
 using Core.Parser;
 using Generator.Command;
+using Generator.Views;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -222,6 +223,14 @@ namespace Generator
             }
         }
 
+        public ICommand ConnectWithSourceCommand
+        {
+            get
+            {
+                return new BaseCommand(ConnectWithMain, CanConnectWithMain);
+            }
+        }
+
         #endregion
 
 
@@ -328,6 +337,25 @@ namespace Generator
         private bool CandRedo()
         {
             return _commandManager.CanRedo();
+        }
+
+        private void ConnectWithMain()
+        {
+            var requestIdWindow = new RequestIdMainWindow();
+            requestIdWindow.ShowDialog();
+
+            if (!requestIdWindow.IsCancelled)
+            {
+                int id = requestIdWindow.IdMain;
+                var articles = _articles.SelectedItems.OfType<Article>().ToList();
+                _commandManager.SetMainId(articles, id);
+            }
+            _articles.Items.Refresh();
+        }
+
+        private bool CanConnectWithMain()
+        {
+            return _articles.SelectedItem != null;
         }
 
         #endregion

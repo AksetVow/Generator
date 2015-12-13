@@ -13,5 +13,7 @@ namespace Core.Command
 
         void Import(Importer importer, Workspace workspace, string[] filenames);
 
+        void SetMainId(IList<Article> articles, int id);
+
     }
 }

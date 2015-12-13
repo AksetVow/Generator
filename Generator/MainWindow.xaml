@@ -144,7 +144,7 @@
                     <MenuItem Header="Удалить картинки из всех" Command="{Binding DeleteAllImagesCommand}"/>
                     <MenuItem Header="Ключевые слова всех статей" IsEnabled="False"/>
                     <MenuItem Header="Ключевые неучаствующие в рейтингах" IsEnabled="False"/>
-                    <MenuItem Header="Привязать к статье"/>
+                    <MenuItem Header="Привязать к статье" Command="{Binding ConnectWithSourceCommand}"/>
                     <MenuItem Header="Тематическая категория">
                         <MenuItem Header="Регионы">
                             <MenuItem Header="Добавить"/>

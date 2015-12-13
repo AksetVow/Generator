@@ -48,6 +48,7 @@
     <Compile Include="Command\CommandManager.cs" />
     <Compile Include="Command\Commands\DeleteArticlesCommand.cs" />
     <Compile Include="Command\Commands\ImportCommand.cs" />
+    <Compile Include="Command\Commands\SetMainArticleCommand.cs" />
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Command\CommandExecutor.cs" />
     <Compile Include="Command\Commands\DeleteAllCommand.cs" />
