@@ -3,22 +3,14 @@ using Core.Export;
 using Core.Import;
 using Core.Parser;
 using Generator.Command;
+using Generator.Utils;
 using Generator.Views;
 using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Generator
 {
@@ -53,50 +45,36 @@ namespace Generator
 
             InitializeImportMenu();
             InitializeExportMenu();
+            InitializeMenuItems();
 
             _articles.ItemsSource = _workspace.Articles;
             _articles.PreviewKeyDown += PreviewKeyDownHandler;
 
         }
 
-        private void PreviewKeyDownHandler(object sender, KeyEventArgs e)
+        private void InitializeMenuItems()
         {
-            var grid = sender as DataGrid;
-            if (grid != null)
+            var regionItems = MenuItemsReader.GetRegionItems();
+            var themeItems = MenuItemsReader.GetThemeItems();
+
+            if (regionItems != null)
             {
-                if (Key.Delete == e.Key)
+                foreach (var item in regionItems)
                 {
-                    if (CanDeleteArticle())
-                    {
-                        DeleteArticles();
-                        e.Handled = true;
-                    }
+                    var menuItem = ViewFactory.CreateMenuItem(AddCategoryCommand, item);
+                    _regionsMenu.Items.Add(menuItem);
+                }
+            }
+
+            if (themeItems != null)
+            {
+                foreach (var item in themeItems)
+                {
+                    var menuItem = ViewFactory.CreateMenuItem(AddCategoryCommand, item);
+                    _themesMenu.Items.Add(menuItem);
                 }
             }
         }
-
-        void OnDataGridLoadingRow(object sender, DataGridRowEventArgs e)
-        {
-            e.Row.Header = (e.Row.GetIndex() + 1).ToString();
-        }
-
-
-        private void OnImportCmbbxSelected(object sender, SelectionChangedEventArgs e)
-        {
-            if (CurrentImportConfiguration != null)
-            {
-                _importer.ImportConfiguration = CurrentImportConfiguration;
-            }
-        }
-
-        private void OnExportCmbbxSelected(object sender, SelectionChangedEventArgs e)
-        {
-            if (CurrentTemplate != null)
-            {
-                _exporter.Template = CurrentTemplate;
-            }
-        }
-
 
         private void InitializeImportMenu()
         {
@@ -156,6 +134,56 @@ namespace Generator
             }
             return false;
         }
+
+        #region EventHandlers
+
+        private void PreviewKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            var grid = sender as DataGrid;
+            if (grid != null)
+            {
+                if (Key.Delete == e.Key)
+                {
+                    if (CanDeleteArticle())
+                    {
+                        DeleteArticles();
+                        e.Handled = true;
+                    }
+                }
+            }
+        }
+
+        private void OnDataGridLoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = (e.Row.GetIndex() + 1).ToString();
+        }
+
+
+        private void OnImportCmbbxSelected(object sender, SelectionChangedEventArgs e)
+        {
+            if (CurrentImportConfiguration != null)
+            {
+                _importer.ImportConfiguration = CurrentImportConfiguration;
+            }
+        }
+
+        private void OnExportCmbbxSelected(object sender, SelectionChangedEventArgs e)
+        {
+            if (CurrentTemplate != null)
+            {
+                _exporter.Template = CurrentTemplate;
+            }
+        }
+
+        private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var regionItems = ViewFactory.MenuItems(_regionsMenu);
+            var themeItems = ViewFactory.MenuItems(_themesMenu);
+
+            MenuItemsReader.SaveItems(regionItems, themeItems);
+        }
+
+        #endregion
 
         #region Commands
 
@@ -240,7 +268,6 @@ namespace Generator
         }
 
         #endregion
-
 
         #region CommandHandlers
 
@@ -379,10 +406,7 @@ namespace Generator
                 {
                     category = addCategoryWindow.Category;
 
-                    MenuItem menuItem = new MenuItem();
-                    menuItem.Command = AddCategoryCommand;
-                    menuItem.CommandParameter = category;
-                    menuItem.Header = category;
+                    MenuItem menuItem = ViewFactory.CreateMenuItem(AddCategoryCommand, category);
 
                     if (obj.Equals("##Region"))
                     {
@@ -410,7 +434,7 @@ namespace Generator
 
         private bool CanAddCategory(object obj)
         {
-            return true;
+            return _articles.SelectedItem != null;
         }
 
         #endregion
