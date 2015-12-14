@@ -13,6 +13,11 @@ namespace Core.Command
         {
             command.Do();
             _doneCommands.Push(command);
+
+            if (_undoneCommands.Count > 0)
+            {
+                _undoneCommands.Clear();
+            }
         }
 
         public void Undo()
