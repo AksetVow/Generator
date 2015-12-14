@@ -1,0 +1,23 @@
+﻿<Window x:Class="Generator.Views.UserRequestDataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:Generator.ViewModels"
+        Title="Дополнительная информация для экспорта" Height="372.692" Width="422.308" ResizeMode="NoResize">
+    <Window.DataContext>
+        <!-- Declaratively create an instance of our SongViewModel -->
+        <local:UserRequestDataViewModel />
+    </Window.DataContext>
+    <Grid>
+        <TextBox x:Name="_nameTextBox" HorizontalAlignment="Left" Height="23" Margin="9,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="179" Text="{Binding ReportName}"/>
+        <Label Content="Введите название отчета" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="178" RenderTransformOrigin="0.5,0.5" Height="28"/>
+        <Label Content="По материалам:" HorizontalAlignment="Left" Margin="216,10,0,0" VerticalAlignment="Top" Height="28" Width="179" />
+        <TextBox x:Name="_materialTextBox" HorizontalAlignment="Left" Height="23" Margin="216,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="179" Text="{Binding ReportMaterials}"/>
+        <Label Content="Начальная дата отчета" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.504,0.192" Width="179"/>
+        <Label Content="Конечная дата отчета" HorizontalAlignment="Left" Margin="216,80,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.613,2.038" Width="179"/>
+        <Calendar x:Name="_calendarStartDate" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" SelectedDate="{Binding StartDate}" />
+        <Calendar x:Name="_calendarEndDate" HorizontalAlignment="Left" Margin="216,117,0,0" VerticalAlignment="Top" SelectedDate="{Binding EndDate}" />
+        <Button Content="Продолжить" HorizontalAlignment="Left" Margin="9,302,0,0" VerticalAlignment="Top" Width="180" Height="25" Click="OnContinueButtonClick"/>
+
+    </Grid>
+</Window>

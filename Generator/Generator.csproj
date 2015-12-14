@@ -61,11 +61,15 @@
     <Compile Include="Command\BaseCommandWithParameter.cs" />
     <Compile Include="Utils\MenuItemsReader.cs" />
     <Compile Include="Utils\ViewFactory.cs" />
+    <Compile Include="ViewModels\UserRequestDataViewModel.cs" />
     <Compile Include="Views\AddCategoryWindow.xaml.cs">
       <DependentUpon>AddCategoryWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RequestIdMainWindow.xaml.cs">
       <DependentUpon>RequestIdMainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserRequestDataWindow.xaml.cs">
+      <DependentUpon>UserRequestDataWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -88,6 +92,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RequestIdMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserRequestDataWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -893,9 +901,7 @@
       <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

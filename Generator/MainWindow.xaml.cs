@@ -299,7 +299,11 @@ namespace Generator
             saveFile.ShowDialog();
 
             var reportFile = saveFile.FileName;
-            _exporter.Export(_workspace, reportFile, new UserRequestData());
+
+            var userData = new UserRequestDataWindow();
+            userData.ShowDialog();
+
+            _exporter.Export(_workspace, reportFile, userData.UserRequestData);
         }
 
         private void DeleteArticles()
