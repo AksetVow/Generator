@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace Generator.Views
 {
@@ -12,20 +13,6 @@ namespace Generator.Views
             InitializeComponent();
         }
 
-        private void OnCancelClick(object sender, RoutedEventArgs e)
-        {
-            IsCancelled = true;
-            Close();
-        }
-
-        private void OnOkClick(object sender, RoutedEventArgs e)
-        {
-            Category = _idTextBox.Text;
-            IsCancelled = false;
-
-            Close();
-        }
-
         public string Category
         {
             get;
@@ -36,6 +23,33 @@ namespace Generator.Views
         {
             get;
             private set;
+        }
+
+        private void Apply()
+        {
+            Category = _idTextBox.Text;
+            IsCancelled = false;
+
+            Close();
+        }
+
+        private void OnCancelClick(object sender, RoutedEventArgs e)
+        {
+            IsCancelled = true;
+            Close();
+        }
+
+        private void OnOkClick(object sender, RoutedEventArgs e)
+        {
+            Apply();
+        }
+
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Apply();
+            }
         }
     }
 }

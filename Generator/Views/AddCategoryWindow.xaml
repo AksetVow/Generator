@@ -4,7 +4,7 @@
         Title="Тематическая категория" Height="130.969" Width="278.732" ResizeMode="NoResize">
     <Grid>
         <Label Content="Введите название тематической категории" Margin="5,0,20,69" />
-        <TextBox x:Name="_idTextBox" Margin="5,27,20,44"></TextBox>
+        <TextBox x:Name="_idTextBox" Margin="5,27,20,44" KeyDown="OnKeyDownHandler"></TextBox>
         <Button Content="OK" Margin="5,60,183,5" Click="OnOkClick"/>
         <Button Content="Cancel" Margin="167,60,10,5" Click="OnCancelClick"/>
     </Grid>

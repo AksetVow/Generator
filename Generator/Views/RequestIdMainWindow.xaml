@@ -4,7 +4,7 @@
         Title="Главная статья" Height="130.969" Width="278.732" ResizeMode="NoResize">
     <Grid>
         <Label Content="Введите ID главной статьи" Margin="5,0,100,69" />
-        <TextBox x:Name="_idTextBox" Margin="5,27,100,44" PreviewTextInput ="OnPreviewTextInput"></TextBox>
+        <TextBox x:Name="_idTextBox" Margin="5,27,100,44" PreviewTextInput ="OnPreviewTextInput" KeyDown="OnKeyDownHandler"></TextBox>
         <Button Content="OK" Margin="5,60,183,5" Click="OnOkClick"/>
         <Button Content="Cancel" Margin="167,60,10,5" Click="OnCancelClick"/>
     </Grid>

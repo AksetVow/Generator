@@ -24,6 +24,32 @@ namespace Generator.Views
             InitializeComponent();
         }
 
+        public int IdMain
+        {
+            get;
+            private set;
+        }
+
+        public bool IsCancelled
+        {
+            get;
+            private set;
+        }
+
+        private void Apply()
+        {
+            int result = 0;
+            if (!string.IsNullOrEmpty(_idTextBox.Text))
+            {
+                result = Int32.Parse(_idTextBox.Text);
+            }
+
+            IdMain = result;
+            IsCancelled = false;
+
+            Close();
+        }
+
         private void OnPreviewTextInput(System.Object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             e.Handled = IsTextNumeric(e.Text);
@@ -45,28 +71,15 @@ namespace Generator.Views
 
         private void OnOkClick(object sender, RoutedEventArgs e)
         {
-            int result = 0;
-            if (!string.IsNullOrEmpty(_idTextBox.Text))
+            Apply();
+        }
+
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
             {
-                result = Int32.Parse(_idTextBox.Text);
+                Apply();
             }
-
-            IdMain = result;
-            IsCancelled = false;
-
-            Close();
-        }
-
-        public int IdMain
-        {
-            get;
-            private set;
-        }
-
-        public bool IsCancelled
-        {
-            get;
-            private set;
         }
 
     }
