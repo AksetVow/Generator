@@ -21,7 +21,7 @@ namespace Core
 
         public IList<string> Images { get; set; }
 
-        public string Mark { get; set; }
+        public int Mark { get; set; }
         public int Id { get; set; }
         public int IdMain { get; set; }
 
@@ -47,8 +47,6 @@ namespace Core
             copy.Title = Title;
 
             copy.Images = (Images as List<string>).ToList();
-
-
 
             return copy;
         }

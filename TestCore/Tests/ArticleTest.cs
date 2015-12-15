@@ -23,7 +23,7 @@ namespace TestCore.Tests
                 IdMain = 4234,
                 Images = new List<string>(),
                 KeyWords = "fwefw",
-                Mark = "12",
+                Mark = 12,
                 PublicDate = "111.04.2014",
                 Region = "Kyiv",
                 Source = "fwefw",
