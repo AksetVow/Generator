@@ -1,36 +1,47 @@
 ﻿<Window x:Class="Generator.Views.EditArticleWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="EditArticleWindow" Height="489" Width="715">
+        Title="EditArticleWindow" Height="489" Width="815">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Height="25">
             <Label Content="ID"/>
-            <TextBox x:Name="_idTextBox" Width="30" IsEnabled="False"/>
+            <TextBox x:Name="_idTextBox" Width="30" IsEnabled="False" Text="{Binding Id}" />
             <Label Content="Заголовок"/>
-            <TextBox x:Name="_titleTextBox" Width="Auto"  />
+            <TextBox x:Name="_titleTextBox" Width="Auto" Text="{Binding Title}" />
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Height="25">
             <Label Content="Источник"/>
-            <TextBox x:Name="_sourceTextBox" Width="30" IsEnabled="False"/>
-            <Label Content="Заголовок"/>
-            <TextBox x:Name="d" Width="Auto"  />
+            <TextBox x:Name="_sourceTextBox" Width="Auto" Text="{Binding Source}"/>
+            <Label Content="Номер"/>
+            <TextBox x:Name="d" Width="20"  Text="{Binding SourceNumber}"/>
             <Label Content="Дата публикации"/>
-            <TextBox   />
+            <DatePicker SelectedDate="{Binding PublicDate}"   />
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" Height="25">
-            <Label Content="Источник"/>
-            <TextBox  Width="30" IsEnabled="False"/>
-            <Label Content="Заголовок"/>
-            <TextBox   />
-            <Label Content="Дата публикации"/>
+            <Label Content="Автор"/>
+            <TextBox Text="{Binding Author}"/>
+            <Label Content="Категория"/>
+            <TextBox  Text="{Binding Category}" />
+            <Label Content="Оценка"/>
             <TextBox   />
         </StackPanel>
+        <TabControl Grid.Row="3">
+            <TabItem Header="Просмотр">
+            </TabItem>
+            <TabItem Header="Текст">
+                <TextBlock Text="{Binding ArticleText}"/>
+            </TabItem>
+            <TabItem Header="Ключевые слова">
+                <TextBlock Text="{Binding KeyWords}"/>
+            </TabItem>
+        </TabControl>
+        
     </Grid>
 </Window>

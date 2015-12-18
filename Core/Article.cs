@@ -46,7 +46,14 @@ namespace Core
             copy.SubjectCategory = SubjectCategory;
             copy.Title = Title;
 
-            copy.Images = (Images as List<string>).ToList();
+            if (Images != null)
+            {
+                copy.Images = (Images as List<string>).ToList();
+            }
+            else
+            {
+                copy.Images = null;
+            }
 
             return copy;
         }

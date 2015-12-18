@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Core;
+using Generator.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,19 @@ namespace Generator.Views
     /// </summary>
     public partial class EditArticleWindow : Window
     {
-        public EditArticleWindow()
+        private EditArticleViewModel _editArticleViewModel;
+
+        public EditArticleWindow(Article article)
         {
             InitializeComponent();
+
+            _editArticleViewModel = new EditArticleViewModel(article);
+            this.DataContext = _editArticleViewModel;
+        }
+
+        public Article Article
+        {
+            get { return _editArticleViewModel.Article; }
         }
     }
 }

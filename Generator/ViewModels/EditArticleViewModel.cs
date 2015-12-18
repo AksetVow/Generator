@@ -13,9 +13,13 @@ namespace Generator.ViewModels
         private Article _article;
         private DateTime _publicDate;
 
-        public EditArticleViewModel()
+        public EditArticleViewModel(Article article)
         {
-            _article = new Article();
+            _article = article;
+            if (_article.PublicDate == null)
+            {
+                _article.PublicDate = DateTime.Now.ToShortDateString();
+            }
             _publicDate = DateTime.Parse(_article.PublicDate);
         }
 
@@ -90,30 +94,22 @@ namespace Generator.ViewModels
             }
         }
 
-        public int Id
+        public string Id
         {
-            get { return _article.Id; }
-
-            set
-            {
-                if (_article.Id != value)
-                {
-                    _article.Id = value;
-                    RaisePropertyChanged("Id");
-                }
-
-            }
+            get { return _article.Id.ToString(); }
+            set { }
         }
 
-        public int IdMain
+        public string IdMain
         {
-            get { return _article.IdMain; }
+            get { return _article.IdMain.ToString(); }
 
             set
             {
-                if (_article.IdMain != value)
+                var intValue = Int32.Parse(value);
+                if (_article.IdMain != intValue)
                 {
-                    _article.IdMain = value;
+                    _article.IdMain = intValue;
                     RaisePropertyChanged("IdMain");
                 }
 
@@ -237,6 +233,10 @@ namespace Generator.ViewModels
                     RaisePropertyChanged("Title");
                 }
             }
+        }
+
+        public Article Article {
+            get { return _article; }
         }
     }
 }

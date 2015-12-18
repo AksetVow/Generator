@@ -158,7 +158,6 @@ namespace Generator
             e.Row.Header = (e.Row.GetIndex() + 1).ToString();
         }
 
-
         private void OnImportCmbbxSelected(object sender, SelectionChangedEventArgs e)
         {
             if (CurrentImportConfiguration != null)
@@ -181,6 +180,17 @@ namespace Generator
             var themeItems = ViewFactory.MenuItems(_themesMenu);
 
             MenuItemsReader.SaveItems(regionItems, themeItems);
+        }
+
+        private void OnItemDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataGridRow row = sender as DataGridRow;
+            Article article = row.Item as Article;
+            if (article != null)
+            {
+                var editArticleWindow = new EditArticleWindow(article.Copy());
+                editArticleWindow.ShowDialog();
+            }
         }
 
         #endregion
