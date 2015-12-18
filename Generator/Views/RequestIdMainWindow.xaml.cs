@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Generator.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,15 +53,7 @@ namespace Generator.Views
 
         private void OnPreviewTextInput(System.Object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            e.Handled = IsTextNumeric(e.Text);
-        }
-
-
-        private static bool IsTextNumeric(string str)
-        {
-            System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex("[^0-9]");
-            return reg.IsMatch(str);
-
+            e.Handled = Helper.IsTextNumeric(e.Text);
         }
 
         private void OnCancelClick(object sender, RoutedEventArgs e)

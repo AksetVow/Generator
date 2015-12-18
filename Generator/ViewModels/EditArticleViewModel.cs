@@ -106,7 +106,7 @@ namespace Generator.ViewModels
 
             set
             {
-                var intValue = Int32.Parse(value);
+                var intValue = string.IsNullOrEmpty(value) ? 0 : Int32.Parse(value);
                 if (_article.IdMain != intValue)
                 {
                     _article.IdMain = intValue;
@@ -131,15 +131,16 @@ namespace Generator.ViewModels
             }
         }
 
-        public int Mark
+        public string Mark
         {
-            get { return _article.Mark; }
+            get { return _article.Mark.ToString(); }
 
             set
             {
-                if (_article.Mark != value)
+                var intValue = string.IsNullOrEmpty(value) ? 0 : Int32.Parse(value);
+                if (_article.Mark != intValue)
                 {
-                    _article.Mark = value;
+                    _article.Mark = intValue;
                     RaisePropertyChanged("Mark");
                 }
 

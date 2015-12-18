@@ -30,18 +30,30 @@
             <Label Content="Категория"/>
             <TextBox  Text="{Binding Category}" />
             <Label Content="Оценка"/>
-            <TextBox   />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="13" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="13" />
+                    <RowDefinition Height="13" />
+                </Grid.RowDefinitions>
+                <TextBox Name="_markTextBox"  Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" TextAlignment="Right" PreviewKeyDown="OnMarkPreviewKeyDown" PreviewKeyUp="OnMarkPreviewKeyUp" TextChanged="OnMarkTextChanged" PreviewTextInput="OnPreviewTextInput" Text="{Binding Mark}"/>
+                <RepeatButton Name="_upBtn"  Grid.Column="1" Grid.Row="0" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="OnIncreaseButtonClick">5</RepeatButton>
+                <RepeatButton Name="_downBtn"  Grid.Column="1" Grid.Row="1" FontSize="8"  FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="13" VerticalAlignment="Bottom" Click="OnDecreaseButtonClick">6</RepeatButton>
+            </Grid>
         </StackPanel>
         <TabControl Grid.Row="3">
             <TabItem Header="Просмотр">
             </TabItem>
             <TabItem Header="Текст">
-                <TextBlock Text="{Binding ArticleText}"/>
+                <TextBox Text="{Binding ArticleText}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
             </TabItem>
             <TabItem Header="Ключевые слова">
-                <TextBlock Text="{Binding KeyWords}"/>
+                <TextBox Text="{Binding KeyWords}"/>
             </TabItem>
         </TabControl>
-        
     </Grid>
+    
 </Window>
