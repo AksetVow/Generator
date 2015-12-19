@@ -65,6 +65,7 @@
     </ApplicationDefinition>
     <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Command\BaseCommandWithParameter.cs" />
+    <Compile Include="Utils\ArticleHelper.cs" />
     <Compile Include="Utils\Helper.cs" />
     <Compile Include="Utils\MenuItemsReader.cs" />
     <Compile Include="Utils\ViewFactory.cs" />

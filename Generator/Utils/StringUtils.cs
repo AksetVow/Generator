@@ -2,7 +2,7 @@
 
 namespace Generator.Utils
 {
-    static class Helper
+    static class StringUtils
     {
         public static bool IsTextNumeric(string str)
         {

@@ -34,6 +34,7 @@ namespace Generator
             Initialize();
         }
 
+        #region Init
         private void Initialize()
         {
             _importConfigurations = ImportConfigParser.ParseImportSettings("imports.ini");
@@ -109,7 +110,9 @@ namespace Generator
                 _exportCmbbx.SelectedIndex = 0;
             }
         }
+        #endregion
 
+        #region Properties
         private ImportConfiguration CurrentImportConfiguration
         {
             get
@@ -133,15 +136,7 @@ namespace Generator
 
         }
 
-        private bool ContainsImages(IList<Article> articles)
-        {
-            foreach (var article in articles)
-            {
-                if (article.Images.Count > 0)
-                    return true;
-            }
-            return false;
-        }
+        #endregion 
 
         #region EventHandlers
 
@@ -366,7 +361,7 @@ namespace Generator
         {
             var articles = _articles.SelectedItems.OfType<Article>().ToList();
 
-            return ContainsImages(articles);
+            return ArticleHelper.ContainsImages(articles);
         }
 
         private void DeleteAllImages()
@@ -377,7 +372,7 @@ namespace Generator
 
         private bool CanDeleteAllImages()
         {
-            return ContainsImages(_workspace.Articles);
+            return ArticleHelper.ContainsImages(_workspace.Articles);
         }
 
         private bool CanUndo()
@@ -466,7 +461,6 @@ namespace Generator
         }
 
         #endregion
-
 
     }
 }

@@ -53,7 +53,7 @@ namespace Generator.Views
 
         private void OnPreviewTextInput(System.Object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            e.Handled = Helper.IsTextNumeric(e.Text);
+            e.Handled = StringUtils.IsTextNumeric(e.Text);
         }
 
         private void OnCancelClick(object sender, RoutedEventArgs e)
