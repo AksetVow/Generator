@@ -8,6 +8,6 @@ namespace Core.Export
         public bool ThemaCategory { get; set; }
         public bool PublicationDate { get; set; }
         public bool Source { get; set; }
-        public bool Header { get; set; }
+        public bool Title { get; set; }
     }
 }

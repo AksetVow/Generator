@@ -25,6 +25,7 @@ namespace Generator
         private Importer _importer;
         private Exporter _exporter;
         private Core.Command.ICommandManager _commandManager = new Core.Command.CommandManager();
+        private ExportCounterSettings _exportSettings = new ExportCounterSettings();
 
         public MainWindow()
         {
@@ -134,6 +135,78 @@ namespace Generator
                     return (_exportCmbbx.SelectedItem as ComboBoxItem).Tag as Template;
             }
 
+        }
+
+        public bool IsAuthorIncluded
+        {
+            get 
+            {
+                return _exportSettings.Author;
+            }
+            set 
+            {
+                _exportSettings.Author = value;
+            }
+        }
+
+        public bool IsThemeCategoryIncluded
+        {
+            get
+            {
+                return _exportSettings.ThemaCategory;
+            }
+            set
+            {
+                _exportSettings.ThemaCategory = value;
+            }
+        }
+
+        public bool IsSourceCategoryIncluded
+        {
+            get
+            {
+                return _exportSettings.SourceCategory;
+            }
+            set
+            {
+                _exportSettings.SourceCategory = value;
+            }
+        }
+
+        public bool IsPublicDateIncluded
+        {
+            get
+            {
+                return _exportSettings.PublicationDate;
+            }
+            set
+            {
+                _exportSettings.PublicationDate = value;
+            }
+        }
+
+        public bool IsSourceIncluded
+        {
+            get
+            {
+                return _exportSettings.Source;
+            }
+            set
+            {
+                _exportSettings.Source = value;
+            }
+        }
+
+        public bool IsTitleIncluded
+        {
+            get
+            {
+                return _exportSettings.Title;
+            }
+            set
+            {
+                _exportSettings.Title = value;
+            }
         }
 
         #endregion 
@@ -322,7 +395,7 @@ namespace Generator
             var userData = new UserRequestDataWindow();
             userData.ShowDialog();
 
-            _exporter.Export(_workspace, reportFile, userData.UserRequestData);
+            _exporter.Export(_workspace, reportFile, userData.UserRequestData, _exportSettings);
         }
 
         private void DeleteArticles()
