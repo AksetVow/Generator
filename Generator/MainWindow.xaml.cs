@@ -87,6 +87,10 @@ namespace Generator
                 importItem.Tag = configuration;
                 _importCmbbx.Items.Add(importItem);
             }
+            if (_importCmbbx.Items.Count > 0)
+            {
+                _importCmbbx.SelectedIndex = 0;
+            }
         }
 
         private void InitializeExportMenu()
@@ -99,6 +103,10 @@ namespace Generator
                 exportItem.Content = template.Name;
                 exportItem.Tag = template;
                 _exportCmbbx.Items.Add(exportItem);
+            }
+            if (_exportCmbbx.Items.Count > 0)
+            {
+                _exportCmbbx.SelectedIndex = 0;
             }
         }
 
