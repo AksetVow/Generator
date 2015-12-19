@@ -54,7 +54,7 @@ namespace Generator.ViewModels
 
             set
             {
-                if (_article.Author != Author)
+                if (_article.Author != value)
                 {
                     _article.Author = value;
                     RaisePropertyChanged("Author");

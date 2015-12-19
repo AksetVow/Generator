@@ -1,8 +1,11 @@
 ﻿using Core;
+using Core.Import;
 using Generator.Utils;
 using Generator.ViewModels;
+using mshtml;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -23,11 +26,17 @@ namespace Generator.Views
     /// </summary>
     public partial class EditArticleWindow : Window
     {
+        private string BeginHtml = "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=windows-1251\"/></head><body>";
+        private string EndHtml = "</body></html>";
+
+
         private EditArticleViewModel _editArticleViewModel;
         private int _minMarkValue = -100;
         private int _maxMarkValue = 100;
         private int startvalue = 0;
         private Article _article;
+
+
 
         public EditArticleWindow(Article article)
         {
@@ -42,6 +51,8 @@ namespace Generator.Views
         {
             get { return _editArticleViewModel.Article; }
         }
+
+        public bool IsSaved { get; private set; }
 
         #region EventHandlers
 
@@ -104,6 +115,31 @@ namespace Generator.Views
             e.Handled = Helper.IsTextNumeric(e.Text);
         }
 
+        private void OnCancelClick(object sender, RoutedEventArgs e)
+        {
+            IsSaved = false;
+            Close();
+        }
+
+        private void OnSaveClick(object sender, RoutedEventArgs e)
+        {
+            IsSaved = true;
+            Close();
+        }
+
+        private void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_articleTextTabCtrl.SelectedIndex == 0 && _article.ArticleText != null)
+            {
+                var str = BeginHtml + _article.ArticleText + EndHtml;
+                var stream = new MemoryStream();
+                var bytes = Encoding.GetEncoding(Importer.TextEncoding).GetBytes(str);
+                stream.Write(bytes, 0, bytes.Length);
+                stream.Position = 0;
+                _browser.NavigateToStream(stream);
+            }
+        }
         #endregion
+
     }
 }

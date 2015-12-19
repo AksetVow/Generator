@@ -35,6 +35,17 @@ namespace TestCore.Tests
             CheckEqual(article, articleCopy);
         }
 
+        [TestMethod]
+        public void CopyFrom()
+        {
+            Article article = new Article();
+            Article sourceArticle = MockArticle();
+
+            article.CopyFrom(sourceArticle);
+
+            CheckEqual(article, sourceArticle);
+        }
+
 
         private void CheckEqual(Article article, Article articleCopy)
         {

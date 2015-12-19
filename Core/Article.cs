@@ -57,5 +57,26 @@ namespace Core
 
             return copy;
         }
+
+        public void CopyFrom(Article article)
+        {
+            ArticleText = article.ArticleText;
+            Author = article.Author;
+            Category = article.Category;
+            CategoryEmpty = article.CategoryEmpty;
+            Filepath = article.Filepath;
+            Id = article.Id;
+            IdMain = article.IdMain;
+            KeyWords = article.KeyWords;
+            Mark = article.Mark;
+            PublicDate = article.PublicDate;
+            Region = article.Region;
+            Source = article.Source;
+            SourceNumber = article.SourceNumber;
+            SubjectCategory = article.SubjectCategory;
+            Title = article.Title;
+
+            Images = (article.Images as List<string>).ToList();
+        }
     }
 }

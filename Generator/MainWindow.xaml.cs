@@ -190,6 +190,12 @@ namespace Generator
             {
                 var editArticleWindow = new EditArticleWindow(article.Copy());
                 editArticleWindow.ShowDialog();
+
+                if (editArticleWindow.IsSaved)
+                {
+                    _commandManager.EditArticle(article, editArticleWindow.Article);
+                    _articles.Items.Refresh();
+                }
             }
         }
 

@@ -17,5 +17,7 @@ namespace Core.Command
 
         void AddCategory(IList<Article> articles, string category);
 
+        void EditArticle(Article origin, Article updated);
+
     }
 }

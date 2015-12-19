@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Generator.Views.EditArticleWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="EditArticleWindow" Height="489" Width="815">
+        Title="Статья" Height="489" Width="815">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -44,8 +44,9 @@
                 <RepeatButton Name="_downBtn"  Grid.Column="1" Grid.Row="1" FontSize="8"  FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="13" VerticalAlignment="Bottom" Click="OnDecreaseButtonClick">6</RepeatButton>
             </Grid>
         </StackPanel>
-        <TabControl Grid.Row="3">
-            <TabItem Header="Просмотр">
+        <TabControl x:Name="_articleTextTabCtrl" Grid.Row="3" SelectionChanged="OnTabSelectionChanged">
+            <TabItem Header="Просмотр" >
+                <WebBrowser x:Name="_browser"/>
             </TabItem>
             <TabItem Header="Текст">
                 <TextBox Text="{Binding ArticleText}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
@@ -54,6 +55,14 @@
                 <TextBox Text="{Binding KeyWords}"/>
             </TabItem>
         </TabControl>
+        <Grid Grid.Row="4"  >
+            <Grid.ColumnDefinitions>
+                
+            </Grid.ColumnDefinitions>
+            <Button Content="Сохранить" Width="80" Margin="0,2,86,2"  Click="OnSaveClick" HorizontalAlignment="Right"/>
+            <Button Content="Отмена" Width="80" Margin="0,2,2,2" Click="OnCancelClick" HorizontalAlignment="Right"/>
+        </Grid>
+
     </Grid>
-    
+
 </Window>

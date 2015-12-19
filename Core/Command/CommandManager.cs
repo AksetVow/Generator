@@ -73,5 +73,11 @@ namespace Core.Command
             var addCategoryCommand = new AddCategoryCommand(category, articles);
             _commandExecutor.ExecuteCommand(addCategoryCommand);
         }
+
+        public void EditArticle(Article origin, Article updated)
+        {
+            var editArticleCommand = new EditArticleCommand(origin, updated);
+            _commandExecutor.ExecuteCommand(editArticleCommand);
+        }
     }
 }
