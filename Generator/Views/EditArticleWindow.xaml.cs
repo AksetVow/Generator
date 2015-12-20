@@ -26,16 +26,17 @@ namespace Generator.Views
     /// </summary>
     public partial class EditArticleWindow : Window
     {
+        #region Constants
         private string BeginHtml = "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=windows-1251\"/></head><body>";
         private string EndHtml = "</body></html>";
-
+        #endregion
 
         private EditArticleViewModel _editArticleViewModel;
         private int _minMarkValue = -100;
         private int _maxMarkValue = 100;
         private int startvalue = 0;
         private Article _article;
-
+        private MemoryStream _stream = null;
 
 
         public EditArticleWindow(Article article)
@@ -118,12 +119,21 @@ namespace Generator.Views
         private void OnCancelClick(object sender, RoutedEventArgs e)
         {
             IsSaved = false;
-            Close();
+            Exit();
         }
 
         private void OnSaveClick(object sender, RoutedEventArgs e)
         {
             IsSaved = true;
+            Exit();
+        }
+
+        private void Exit()
+        {
+            if (_stream != null)
+            {
+                _stream.Close();
+            }
             Close();
         }
 
@@ -131,12 +141,17 @@ namespace Generator.Views
         {
             if (_articleTextTabCtrl.SelectedIndex == 0 && _article.ArticleText != null)
             {
+                if (_stream != null)
+                {
+                    _stream.Close();
+                }
+
                 var str = BeginHtml + _article.ArticleText + EndHtml;
-                var stream = new MemoryStream();
+                _stream = new MemoryStream();
                 var bytes = Encoding.GetEncoding(Importer.TextEncoding).GetBytes(str);
-                stream.Write(bytes, 0, bytes.Length);
-                stream.Position = 0;
-                _browser.NavigateToStream(stream);
+                _stream.Write(bytes, 0, bytes.Length);
+                _stream.Position = 0;
+                _browser.NavigateToStream(_stream);
             }
         }
         #endregion
