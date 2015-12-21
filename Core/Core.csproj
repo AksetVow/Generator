@@ -60,6 +60,7 @@
     <Compile Include="Command\Commands\DeleteImagesCommand.cs" />
     <Compile Include="Command\ICommandManager.cs" />
     <Compile Include="Command\ICommandExecutor.cs" />
+    <Compile Include="Export\CounterExportTable.cs" />
     <Compile Include="Export\ExportCounterSettings.cs" />
     <Compile Include="Export\UserRequestData.cs" />
     <Compile Include="Import\ImportData.cs" />

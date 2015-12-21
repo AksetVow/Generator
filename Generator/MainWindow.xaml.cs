@@ -153,11 +153,11 @@ namespace Generator
         {
             get
             {
-                return _exportSettings.ThemaCategory;
+                return _exportSettings.SubjectCategory;
             }
             set
             {
-                _exportSettings.ThemaCategory = value;
+                _exportSettings.SubjectCategory = value;
             }
         }
 
@@ -165,11 +165,11 @@ namespace Generator
         {
             get
             {
-                return _exportSettings.SourceCategory;
+                return _exportSettings.Category;
             }
             set
             {
-                _exportSettings.SourceCategory = value;
+                _exportSettings.Category = value;
             }
         }
 

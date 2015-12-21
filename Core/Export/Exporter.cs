@@ -39,6 +39,9 @@ namespace Core.Export
             _userRequestData = userRequestData;
             _resultPath = resultPath;
 
+            //for debug
+            var st = CounterExportTable.GetCountArticleTable(_currentWorkspace.Articles, _counterSettings);
+
             string result = string.Empty;
             
             result += CreateHeader();
@@ -114,17 +117,27 @@ namespace Core.Export
 
         private string CreateCountTable()
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+            sb.Append(CreateCountTableHeader());
+            sb.Append(CreateTableContent());
+            sb.Append(CreateCountTableFooter());
+
+            return sb.ToString();
+        }
+
+        private string CreateTableContent()
+        {
+            return string.Empty;
         }
 
         private string CreateCountTableHeader()
         {
-            throw new NotImplementedException();
+            return string.Empty;
         }
 
         private string CreateCountTableFooter()
         {
-            throw new NotImplementedException();
+            return string.Empty;
         }
         
 
@@ -149,15 +162,17 @@ namespace Core.Export
             string path = Path.Combine(Template.Rootdir, Template.Footertpl);
             string footer = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
 
-            if (_counterSettings == null)
+            if (_counterSettings == null || _counterSettings.IsEmpty)
             {
                 footer = footer.Replace(CountList, string.Empty);
-                footer = footer.Replace(Rating, string.Empty);
             }
             else
-            { 
-            
+            {
+                var countTable = CreateCountTable();
+                footer = footer.Replace(CountList, countTable);
             }
+
+            footer = footer.Replace(Rating, string.Empty);
 
             return footer;
         }
