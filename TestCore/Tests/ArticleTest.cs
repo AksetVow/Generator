@@ -50,6 +50,7 @@ namespace TestCore.Tests
         private void CheckEqual(Article article, Article articleCopy)
         {
             Assert.AreEqual(article.ArticleText, articleCopy.ArticleText);
+            Assert.AreEqual(article.ArticleOriginText, articleCopy.ArticleOriginText);
             Assert.AreEqual(article.Author, articleCopy.Author);
             Assert.AreEqual(article.Category, articleCopy.Category);
             Assert.AreEqual(article.CategoryEmpty, articleCopy.CategoryEmpty);
@@ -74,6 +75,7 @@ namespace TestCore.Tests
             Article article = new Article()
             {
                 ArticleText = "wefwefw",
+                ArticleOriginText = "wefwefw123gwerg",
                 Author = "fwefwef",
                 Category = "fwefwefcvc",
                 CategoryEmpty = "wefwef",

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,19 @@ namespace Core.Export
     {
         public const string SpecialKeyValue = "#######0bac56da-82e0-4da4-a508-08ab1214a90e#######";
 
-        public static int CountSymbols(IEnumerable<Article> article)
+        public static int CountSymbols(IEnumerable<Article> articles)
         {
-            return 0;
+            int countsymbols = 0;
+            HtmlDocument doc;
+
+            foreach (var article in articles)
+            {
+                doc = new HtmlDocument();
+                doc.LoadHtml(article.ArticleOriginText);
+                countsymbols += doc.DocumentNode.InnerText.Count(c => !Char.IsWhiteSpace(c));
+            }
+
+            return countsymbols;
         }
 
         public static bool IsEqual(Article first, Article second, ExportCounterSettings settings)

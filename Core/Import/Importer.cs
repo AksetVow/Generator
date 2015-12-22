@@ -151,6 +151,7 @@ namespace Core.Import
                 articleText = ImportArticleText(articleText);
                 article.ArticleText = articleText;
             }
+            article.ArticleOriginText = article.ArticleText;
 
             matches = Regex.Matches(str, ImportConfiguration.Regetauthor, RegexOptions.Singleline);
             if (matches.Count > 0)

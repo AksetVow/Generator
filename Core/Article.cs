@@ -6,6 +6,7 @@ namespace Core
     public class Article 
     {
         public string ArticleText { get; set; }
+        public string ArticleOriginText { get; set; }
         public string Author { get; set; }
         public string PublicDate { get; set; }
         public string Source { get; set; }
@@ -31,6 +32,7 @@ namespace Core
             Article copy = new Article();
 
             copy.ArticleText = ArticleText;
+            copy.ArticleOriginText = ArticleOriginText;
             copy.Author = Author;
             copy.Category = Category;
             copy.CategoryEmpty = CategoryEmpty;
@@ -61,6 +63,7 @@ namespace Core
         public void CopyFrom(Article article)
         {
             ArticleText = article.ArticleText;
+            ArticleOriginText = article.ArticleOriginText;
             Author = article.Author;
             Category = article.Category;
             CategoryEmpty = article.CategoryEmpty;
