@@ -75,6 +75,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Utils\HtmlTextHelper.cs" />
     <Compile Include="Utils\MatchHelper.cs" />
+    <Compile Include="Utils\StringHelper.cs" />
     <Compile Include="Workspace.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using Core.Import;
+using Core.Utils;
 using System;
 using System.IO;
 using System.Text;
@@ -126,11 +127,16 @@ namespace Core.Export
             var tableContentTemplate = CreateTableGroup();
             string row;
 
+            int whiteSpaces = 0;
+            string indent = string.Empty;
             foreach (var item in tableContentItems)
             {
+                indent = Template.Countindentstr.Multiply(whiteSpaces);
+                ++whiteSpaces;
                 if (item.Item4)
                 {
                     row = tableGroupTemplate;
+                    whiteSpaces = 0;
                 }
                 else
                 {
@@ -146,7 +152,7 @@ namespace Core.Export
                 }
                 row = row.Replace(CountDifferent, item.Item2.ToString());
                 row = row.Replace(SymbolCount, item.Item3.ToString());
-                row = row.Replace(IndentString, Template.Countindentstr);
+                row = row.Replace(IndentString, indent);
                 sb.Append(row);
             }
 
@@ -159,7 +165,6 @@ namespace Core.Export
         {
             string path = Path.Combine(Template.Rootdir, Template.Counttpl);
             string counterContentTpl = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
-            counterContentTpl = counterContentTpl.Replace(IndentString, Template.Countindentstr);
             return counterContentTpl;
         }
 
@@ -167,7 +172,6 @@ namespace Core.Export
         {
             string path = Path.Combine(Template.Rootdir, Template.Countgrouptpl);
             string counterGroupTpl = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
-            counterGroupTpl = counterGroupTpl.Replace(IndentString, Template.Countindentstr);
             return counterGroupTpl;
         }
 
