@@ -20,7 +20,13 @@ namespace Core.Parser
         public const string IncludeToc = @"includetoc";
         public const string Tocheadertpl = @"tocheadertpl";
         public const string Toctpl = @"toctpl";
-        public const string Tocfootertpl = @"tocfootertpl"; 
+        public const string Tocfootertpl = @"tocfootertpl";
+
+        public const string Countheadertpl = @"countheadertpl";
+        public const string Counttpl = @"counttpl";
+        public const string Countfootertpl = @"countfootertpl";
+        public const string Countgrouptpl = @"countgrouptpl";
+        public const string Countindentstr = @"countindentstr";
 
 
         public static IList<Template> ParseExportSettings(string exportSetting)
@@ -100,6 +106,26 @@ namespace Core.Parser
             else if (line.IndexOf(Tocfootertpl) == 0)
             {
                 template.Tocfootertpl = line.Substring(line.IndexOf('=') + 1);
+            }
+            else if (line.IndexOf(Countheadertpl) == 0)
+            {
+                template.Countheadertpl = line.Substring(line.IndexOf('=') + 1);
+            }
+            else if (line.IndexOf(Counttpl) == 0)
+            {
+                template.Counttpl = line.Substring(line.IndexOf('=') + 1);
+            }
+            else if (line.IndexOf(Countfootertpl) == 0)
+            {
+                template.Countfootertpl = line.Substring(line.IndexOf('=') + 1);
+            }
+            else if (line.IndexOf(Countgrouptpl) == 0)
+            {
+                template.Countgrouptpl = line.Substring(line.IndexOf('=') + 1);
+            }
+            else if (line.IndexOf(Countindentstr) == 0)
+            {
+                template.Countindentstr = line.Substring(line.IndexOf('=') + 1);
             }
         }
 

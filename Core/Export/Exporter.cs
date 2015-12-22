@@ -27,6 +27,12 @@ namespace Core.Export
         private const string Rating = @"%RATINGS%";
         private const string AlsoIn = @"%ALSOIN%";
 
+        private const string IndentString = @"%INDENTSTRING%";
+        private const string CountName = @"%CNTNAME%";
+        private const string CountDifferent = @"%CNTCOUNT%";
+        private const string SymbolCount = @"%SYMBOLCOUNT%";
+        private const string CounterTableEmptyString = @"<пусто>";
+
         private const string Http = "http";
         private const string TemplateImageName = "_tplimg_";
 
@@ -38,9 +44,6 @@ namespace Core.Export
             _counterSettings = counterSettings;
             _userRequestData = userRequestData;
             _resultPath = resultPath;
-
-            //for debug
-            var st = CounterExportTable.GetCountArticleTable(_currentWorkspace.Articles, _counterSettings);
 
             string result = string.Empty;
             
@@ -64,8 +67,6 @@ namespace Core.Export
             return report;
         }
 
-
-        //TODO Change access to private
         #region PrivateMethods
 
         #region TOC
@@ -119,7 +120,36 @@ namespace Core.Export
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(CreateCountTableHeader());
-            sb.Append(CreateTableContent());
+
+            var tableContentItems = CounterExportTable.GetCountArticleTable(_currentWorkspace.Articles, _counterSettings);
+            var tableGroupTemplate = CreateTableContent();
+            var tableContentTemplate = CreateTableGroup();
+            string row;
+
+            foreach (var item in tableContentItems)
+            {
+                if (item.Item4)
+                {
+                    row = tableGroupTemplate;
+                }
+                else
+                {
+                    row = tableContentTemplate;
+                }
+                if (string.IsNullOrEmpty(item.Item1))
+                {
+                    row = row.Replace(CountName, CounterTableEmptyString);
+                }
+                else
+                {
+                    row = row.Replace(CountName, item.Item1);
+                }
+                row = row.Replace(CountDifferent, item.Item2.ToString());
+                row = row.Replace(SymbolCount, item.Item3.ToString());
+                row = row.Replace(IndentString, Template.Countindentstr);
+                sb.Append(row);
+            }
+
             sb.Append(CreateCountTableFooter());
 
             return sb.ToString();
@@ -127,17 +157,32 @@ namespace Core.Export
 
         private string CreateTableContent()
         {
-            return string.Empty;
+            string path = Path.Combine(Template.Rootdir, Template.Counttpl);
+            string counterContentTpl = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
+            counterContentTpl = counterContentTpl.Replace(IndentString, Template.Countindentstr);
+            return counterContentTpl;
+        }
+
+        private string CreateTableGroup()
+        {
+            string path = Path.Combine(Template.Rootdir, Template.Countgrouptpl);
+            string counterGroupTpl = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
+            counterGroupTpl = counterGroupTpl.Replace(IndentString, Template.Countindentstr);
+            return counterGroupTpl;
         }
 
         private string CreateCountTableHeader()
         {
-            return string.Empty;
+            string path = Path.Combine(Template.Rootdir, Template.Countheadertpl);
+            string counterTableHeader = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
+            return counterTableHeader;
         }
 
         private string CreateCountTableFooter()
         {
-            return string.Empty;
+            string path = Path.Combine(Template.Rootdir, Template.Countfootertpl);
+            string counterTableFooter = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
+            return counterTableFooter;
         }
         
 

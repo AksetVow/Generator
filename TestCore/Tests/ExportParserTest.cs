@@ -24,6 +24,11 @@ namespace TestCore.Tests
             Assert.AreEqual(templates[0].Toctpl, @"..\toc.htm");
             Assert.AreEqual(templates[0].Tocheadertpl, @"tocheadertpl.htm");
             Assert.AreEqual(templates[0].Tocfootertpl, @"..\tocfootertpl.htm");
+            Assert.AreEqual(templates[0].Countheadertpl, @"..\cntheader.htm");
+            Assert.AreEqual(templates[0].Counttpl, @"..\cnt.htm");
+            Assert.AreEqual(templates[0].Countfootertpl, @"..\cntfooter.htm");
+            Assert.AreEqual(templates[0].Countgrouptpl, @"..\countgrouptpl.htm");
+            Assert.AreEqual(templates[0].Countindentstr, @"&nbsp;&nbsp;");
         }
 
         [TestMethod]
