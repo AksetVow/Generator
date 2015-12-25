@@ -83,8 +83,10 @@ namespace Generator.Utils
 
         private static bool Equals(Article first, Article second)
         {
-            return first.Title.ToUpper().Equals(second.Title.ToUpper())
-                && first.Author.ToUpper().Equals(second.Author.ToUpper());
+            if (first.Title == null || second.Title == null)
+                return false;
+
+            return first.Title.ToUpper().Equals(second.Title.ToUpper());
         }
 
         private static Color SwitchColor(Color color)
