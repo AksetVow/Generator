@@ -7,6 +7,7 @@ using Generator.Utils;
 using Generator.Views;
 using Microsoft.Win32;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,6 +36,11 @@ namespace Generator
             Initialize();
         }
 
+        private void Refresh()
+        {
+            _articlesDataGrid.Items.Refresh();
+        }
+
         #region Init
         private void Initialize()
         {
@@ -49,8 +55,8 @@ namespace Generator
             InitializeExportMenu();
             InitializeMenuItems();
 
-            _articles.ItemsSource = _workspace.Articles;
-            _articles.PreviewKeyDown += PreviewKeyDownHandler;
+            _articlesDataGrid.ItemsSource = _workspace.Articles;
+            _articlesDataGrid.PreviewKeyDown += PreviewKeyDownHandler;
 
         }
 
@@ -63,7 +69,7 @@ namespace Generator
             {
                 foreach (var item in regionItems)
                 {
-                    var menuItem = ViewFactory.CreateMenuItem(AddCategoryCommand, item);
+                    var menuItem = ViewHelper.CreateMenuItem(AddCategoryCommand, item);
                     _regionsMenu.Items.Add(menuItem);
                 }
             }
@@ -72,7 +78,7 @@ namespace Generator
             {
                 foreach (var item in themeItems)
                 {
-                    var menuItem = ViewFactory.CreateMenuItem(AddCategoryCommand, item);
+                    var menuItem = ViewHelper.CreateMenuItem(AddCategoryCommand, item);
                     _themesMenu.Items.Add(menuItem);
                 }
             }
@@ -256,8 +262,8 @@ namespace Generator
 
         private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var regionItems = ViewFactory.MenuItems(_regionsMenu);
-            var themeItems = ViewFactory.MenuItems(_themesMenu);
+            var regionItems = ViewHelper.MenuItems(_regionsMenu);
+            var themeItems = ViewHelper.MenuItems(_themesMenu);
 
             MenuItemsReader.SaveItems(regionItems, themeItems);
         }
@@ -274,7 +280,7 @@ namespace Generator
                 if (editArticleWindow.IsSaved)
                 {
                     _commandManager.EditArticle(article, editArticleWindow.Article);
-                    _articles.Items.Refresh();
+                    Refresh();
                 }
             }
         }
@@ -363,6 +369,22 @@ namespace Generator
             }
         }
 
+        public ICommand SortAndColorizeCommand
+        {
+            get 
+            {
+                return new BaseCommand(Colorize, CanColorize);
+            }
+        }
+
+        public ICommand UncolorizeCommand
+        {
+            get
+            {
+                return new BaseCommand(Uncolorize, CanUncolorize);
+            }
+        }
+
         #endregion
 
         #region CommandHandlers
@@ -380,7 +402,7 @@ namespace Generator
             openFile.ShowDialog();
             _commandManager.Import(_importer, _workspace, openFile.FileNames);
 
-            _articles.Items.Refresh();
+            Refresh();
         }
 
         private bool CanExport()
@@ -404,21 +426,21 @@ namespace Generator
 
         private void DeleteArticles()
         {
-            var articles = _articles.SelectedItems.OfType<Article>().ToList();
+            var articles = _articlesDataGrid.SelectedItems.OfType<Article>().ToList();
 
             _commandManager.Delete(_workspace, articles);
-            _articles.Items.Refresh();
+            Refresh();
         }
 
         private bool CanDeleteArticle()
         {
-            return _articles.SelectedItem != null;
+            return _articlesDataGrid.SelectedItem != null;
         }
 
         private void DeleteAllArticles()
         {
             _commandManager.DeleteAll(_workspace);
-            _articles.Items.Refresh();
+            Refresh();
         }
 
         private bool CanDeleteAllArticles()
@@ -428,15 +450,15 @@ namespace Generator
 
         private void DeleteImage()
         {
-            var articles = _articles.SelectedItems.OfType<Article>().ToList();
+            var articles = _articlesDataGrid.SelectedItems.OfType<Article>().ToList();
 
             _commandManager.DeleteImages(articles);
-            _articles.Items.Refresh();
+            Refresh();
         }
 
         private bool CanDeleteImage()
         {
-            var articles = _articles.SelectedItems.OfType<Article>().ToList();
+            var articles = _articlesDataGrid.SelectedItems.OfType<Article>().ToList();
 
             return ArticleHelper.ContainsImages(articles);
         }
@@ -444,7 +466,7 @@ namespace Generator
         private void DeleteAllImages()
         {
             _commandManager.DeleteImages(_workspace.Articles);
-            _articles.Items.Refresh();
+            Refresh();
         }
 
         private bool CanDeleteAllImages()
@@ -460,13 +482,13 @@ namespace Generator
         private void Undo()
         {
             _commandManager.Undo();
-            _articles.Items.Refresh();
+            Refresh();
         }
 
         private void Redo()
         {
             _commandManager.Redo();
-            _articles.Items.Refresh();
+            Refresh();
         }
 
         private bool CandRedo()
@@ -482,15 +504,15 @@ namespace Generator
             if (!requestIdWindow.IsCancelled)
             {
                 int id = requestIdWindow.IdMain;
-                var articles = _articles.SelectedItems.OfType<Article>().ToList();
+                var articles = _articlesDataGrid.SelectedItems.OfType<Article>().ToList();
                 _commandManager.SetMainId(articles, id);
             }
-            _articles.Items.Refresh();
+            Refresh();
         }
 
         private bool CanConnectWithMain()
         {
-            return _articles.SelectedItem != null;
+            return _articlesDataGrid.SelectedItem != null;
         }
 
         private void AddCategory(object obj)
@@ -506,7 +528,7 @@ namespace Generator
                 {
                     category = addCategoryWindow.Category;
 
-                    MenuItem menuItem = ViewFactory.CreateMenuItem(AddCategoryCommand, category);
+                    MenuItem menuItem = ViewHelper.CreateMenuItem(AddCategoryCommand, category);
 
                     if (obj.Equals("##Region"))
                     {
@@ -525,16 +547,41 @@ namespace Generator
                 category = obj.ToString();
             }
 
-            var articles = _articles.SelectedItems.OfType<Article>().ToList();
+            var articles = _articlesDataGrid.SelectedItems.OfType<Article>().ToList();
             _commandManager.AddCategory(articles, category);
 
 
-            _articles.Items.Refresh();
+            Refresh();
         }
 
         private bool CanAddCategory(object obj)
         {
-            return _articles.SelectedItem != null;
+            return _articlesDataGrid.SelectedItem != null;
+        }
+
+        private void Colorize()
+        {
+            var articles = _workspace.Articles.OrderBy(x => x.Title).ThenBy(x => x.Author).ToList();
+            _workspace.RemoveAll();
+            _workspace.Add(articles);
+            ViewHelper.Colorize(_workspace.Articles);
+
+            Refresh();
+        }
+
+        private bool CanColorize()
+        {
+            return _workspace.Articles.Count > 1;
+        }
+
+        private void Uncolorize()
+        {
+            ViewHelper.Uncolorize(_workspace.Articles);
+        }
+
+        private bool CanUncolorize()
+        {
+            return _workspace.Articles.Count > 1;
         }
 
         #endregion

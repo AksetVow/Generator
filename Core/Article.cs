@@ -25,7 +25,8 @@ namespace Core
         public int Mark { get; set; }
         public int Id { get; set; }
         public int IdMain { get; set; }
-
+        //TODO : remove this property if possible
+        public int Color { get; set; }
 
         public Article Copy()
         {

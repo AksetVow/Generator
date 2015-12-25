@@ -7,6 +7,11 @@
         </KeyBinding>
         <KeyBinding Command="{Binding Path=RedoCommand}" Key="Y" Modifiers="Control">
         </KeyBinding>
+        <KeyBinding Command="{Binding Path=SortAndColorizeCommand}" Key="Q" Modifiers="Control">
+        </KeyBinding>
+        <KeyBinding Command="{Binding Path=UncolorizeCommand}" Key="W" Modifiers="Control">
+        </KeyBinding>
+
     </Window.InputBindings>
 
     <Grid  HorizontalAlignment="Stretch">
@@ -20,12 +25,16 @@
 
         <Menu Grid.Row="0" DockPanel.Dock="Top" >
             <MenuItem Header="_Файл">
-                <MenuItem Header="_Открыть"/>
-                <MenuItem Header="_Сохранить"/>
+                <MenuItem Header="_Открыть" IsEnabled="False"/>
+                <MenuItem Header="_Сохранить" IsEnabled="False"/>
             </MenuItem>
             <MenuItem Header="_Редактировать">
-                <MenuItem Header="_Отменить" Command="{Binding UndoCommand}"/>
-                <MenuItem Header="_Заново" Command="{Binding RedoCommand}"/>
+                <MenuItem Header="_Отменить (Ctrl+Z)" Command="{Binding UndoCommand}"/>
+                <MenuItem Header="_Заново (Ctrl+Y)" Command="{Binding RedoCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_Вид">
+                <MenuItem Header="_Сортировать и раскрасить (Ctrl+Q)" Command="{Binding SortAndColorizeCommand}"/>
+                <MenuItem Header="_Вернуть начальный цвет (Ctrl+W)" Command="{Binding UncolorizeCommand}"/>
             </MenuItem>
         </Menu>
 
@@ -137,7 +146,7 @@
 
         </WrapPanel>
 
-        <DataGrid IsReadOnly="True" LoadingRow="OnDataGridLoadingRow" Grid.Row="4" x:Name="_articles" AutoGenerateColumns="False" ItemsSource="{Binding _workspace.Articles}" MinHeight="394" MinWidth="1407" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <DataGrid IsReadOnly="True" LoadingRow="OnDataGridLoadingRow" Grid.Row="4" x:Name="_articlesDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding _workspace.Articles}" MinHeight="394" MinWidth="1407" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Удалить картинки" Command="{Binding DeleteImageCommand}"/>
@@ -167,6 +176,15 @@
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
                     <EventSetter Event="MouseDoubleClick" Handler="OnItemDoubleClick"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Color}" Value="1">
+                            <Setter Property="Background" Value="Yellow"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Color}" Value="2">
+                            <Setter Property="Background" Value="Blue"/>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </DataGrid.Resources>
 

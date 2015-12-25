@@ -68,7 +68,7 @@
     <Compile Include="Utils\ArticleHelper.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\MenuItemsReader.cs" />
-    <Compile Include="Utils\ViewFactory.cs" />
+    <Compile Include="Utils\ViewHelper.cs" />
     <Compile Include="ViewModels\EditArticleViewModel.cs" />
     <Compile Include="ViewModels\UserRequestDataViewModel.cs" />
     <Compile Include="Views\AddCategoryWindow.xaml.cs">
