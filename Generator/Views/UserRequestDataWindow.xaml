@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:Generator.ViewModels"
-        Title="Дополнительная информация для экспорта" Height="372.692" Width="422.308" ResizeMode="NoResize">
+        Title="Дополнительная информация для экспорта" Height="372.692" Width="422.308" ResizeMode="NoResize" KeyDown="OnWindowKeyDownHandler">
     <Window.DataContext>
         <!-- Declaratively create an instance of our SongViewModel -->
         <local:UserRequestDataViewModel />

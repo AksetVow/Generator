@@ -39,6 +39,11 @@ namespace Generator.Views
             Close();
         }
 
+        private void OnWindowKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            Close();
+        }
+
         
     }
 }
