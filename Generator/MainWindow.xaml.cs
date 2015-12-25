@@ -89,7 +89,11 @@ namespace Generator
                 importItem.Tag = configuration;
                 _importCmbbx.Items.Add(importItem);
             }
-            if (_importCmbbx.Items.Count > 0)
+            if (_importCmbbx.Items.Count > 1)
+            {
+                _importCmbbx.SelectedIndex = 1;
+            }
+            else if (_importCmbbx.Items.Count > 0)
             {
                 _importCmbbx.SelectedIndex = 0;
             }
