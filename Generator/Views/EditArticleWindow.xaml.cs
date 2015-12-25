@@ -154,6 +154,15 @@ namespace Generator.Views
                 _browser.NavigateToStream(_stream);
             }
         }
+
+        private void OnWindowKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                IsSaved = false;
+                Close();
+            }
+        }
         #endregion
 
     }

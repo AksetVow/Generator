@@ -41,7 +41,10 @@ namespace Generator.Views
 
         private void OnWindowKeyDownHandler(object sender, KeyEventArgs e)
         {
-            Close();
+            if (e.Key == Key.Enter || e.Key == Key.Escape)
+            {
+                Close();
+            }
         }
 
         
