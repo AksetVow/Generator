@@ -1,4 +1,5 @@
 ﻿using Core.Utils;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,10 @@ namespace Core.Import
         public const string ImageRegex = "<img.+?src=[\"'](.+?)[\"'].*?>";
         public const int TextEncoding = 1251;
         private const string ArticleTextBegin = "<p class=\"documenttext\">";
+
+        private const string IncorrectHtml = "<br</font> />";
+        private const string CorrectHtml = "</font><br />";
+
         #endregion
 
         private string _baseDestination;
@@ -149,9 +154,9 @@ namespace Core.Import
             {
                 var articleText  = MatchHelper.SelectResultValue(matches[0]);
                 articleText = ImportArticleText(articleText);
-                article.ArticleText = articleText;
+                article.ArticleOriginText = articleText;
+                article.ArticleText = articleText.Replace(IncorrectHtml, CorrectHtml);
             }
-            article.ArticleOriginText = article.ArticleText;
 
             matches = Regex.Matches(str, ImportConfiguration.Regetauthor, RegexOptions.Singleline);
             if (matches.Count > 0)
