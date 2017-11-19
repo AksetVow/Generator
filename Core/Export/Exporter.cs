@@ -278,6 +278,11 @@ namespace Core.Export
             return text;
         }
 
+        private static string ImagePattern(string imagePath)
+        {
+            return $"<img.+?src=[\\\"'].*{imagePath}.*[\\\"'].*?>";
+        }
+
         private string ExportImages(Article article, string text)
         {
             string newPath, oldPath, image, imageDirectory;
@@ -300,6 +305,11 @@ namespace Core.Export
                 {
                     File.Copy(oldPath, newPath);
                     text = text.Replace(img, newPath);
+                }
+                else
+                {
+                    Regex rgx = new Regex(ImagePattern(img));
+                    text = rgx.Replace(text, string.Empty);
                 }
             }
             return text;
