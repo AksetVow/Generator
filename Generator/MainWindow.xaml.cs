@@ -236,6 +236,11 @@ namespace Generator
                         e.Handled = true;
                     }
                 }
+                if (Key.Enter == e.Key)
+                {
+                    Article article = _articlesDataGrid.SelectedItem as Article;
+                    EditArticle(article);
+                }
             }
         }
 
@@ -272,6 +277,15 @@ namespace Generator
         {
             DataGridRow row = sender as DataGridRow;
             Article article = row.Item as Article;
+            EditArticle(article);
+        }
+
+        #endregion
+
+        #region PrivateMethods
+
+        private void EditArticle(Article article)
+        {
             if (article != null)
             {
                 var editArticleWindow = new EditArticleWindow(article.Copy());

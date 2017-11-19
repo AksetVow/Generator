@@ -1,8 +1,8 @@
 ﻿using Core.Import;
 using Core.Utils;
-using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Core.Export
 {
@@ -37,6 +37,9 @@ namespace Core.Export
         private const string Http = "http";
         private const string TemplateImageName = "_tplimg_";
 
+        private const string FontErrorPattern = "<font(\\s)+color(\\s)*=(\\s)*\"#0000FF\"(\\s)*>(\\s)*<font";
+        private const string FontErrorCorrection = "<font";
+
 
         public Report Export(Workspace workspace, string resultPath, UserRequestData userRequestData, ExportCounterSettings counterSettings = null)
         {
@@ -63,10 +66,14 @@ namespace Core.Export
 
             result = ExportTemplateImages(result);
 
+            result = FixColoring(result);
+
             var report = CreateReport(result, resultPath);
 
             return report;
         }
+
+
 
         #region PrivateMethods
 
@@ -188,11 +195,21 @@ namespace Core.Export
             string counterTableFooter = File.ReadAllText(path, Encoding.GetEncoding(Importer.TextEncoding));
             return counterTableFooter;
         }
-        
+
 
         #endregion
 
         #region Content
+
+        private string FixColoring(string str)
+        {
+            Regex rgx = new Regex(FontErrorPattern);
+            var result = rgx.Replace(str, FontErrorCorrection);
+
+            return result;
+        }
+
+
         private string CreateHeader()
         {
             string path = Path.Combine(Template.Rootdir, Template.Headertpl);
