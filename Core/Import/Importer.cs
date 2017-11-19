@@ -19,6 +19,8 @@ namespace Core.Import
         private const string ArticleTextBegin = "<p class=\"documenttext\">";
 
         private const string IncorrectHtml = "<br</font> />";
+        private const string IncorrectHtmlWithoutSpace = "<br</font>>";
+        //should be regex
         private const string CorrectHtml = "</font><br />";
 
         #endregion
@@ -155,7 +157,7 @@ namespace Core.Import
                 var articleText  = MatchHelper.SelectResultValue(matches[0]);
                 articleText = ImportArticleText(articleText);
                 article.ArticleOriginText = articleText;
-                article.ArticleText = articleText.Replace(IncorrectHtml, CorrectHtml);
+                article.ArticleText = articleText.Replace(IncorrectHtml, CorrectHtml).Replace(IncorrectHtmlWithoutSpace, CorrectHtml);
             }
 
             matches = Regex.Matches(str, ImportConfiguration.Regetauthor, RegexOptions.Singleline);
@@ -219,7 +221,7 @@ namespace Core.Import
 
         private void ProcessImages(string str, Article article)
         {
-            var matches = Regex.Matches(str, ImageRegex, RegexOptions.IgnoreCase);
+            var matches = Regex.Matches(str, ImageRegex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             var images = new List<string>();
             MatchHelper.ProcessImages(matches, images);
             article.Images = images;

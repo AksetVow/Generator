@@ -280,7 +280,7 @@ namespace Core.Export
 
         private static string ImagePattern(string imagePath)
         {
-            return $"<img.+?src=[\\\"'].*{imagePath}.*[\\\"'].*?>";
+            return $"<img.+?src=[\"'].*{imagePath}.*[\"'].*?>";
         }
 
         private string ExportImages(Article article, string text)
